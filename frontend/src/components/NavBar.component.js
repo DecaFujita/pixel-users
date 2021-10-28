@@ -1,6 +1,5 @@
 import React from 'react';
 import { withStyles } from '@material-ui/styles';
-import { DESKTOP_WIDTH } from '../assets';
 import { NavLink } from 'react-router-dom';
 import AccountButton from './AccountButton';
 import { useAuth } from '../hooks/useAuth';
@@ -8,11 +7,13 @@ import { useAuth } from '../hooks/useAuth';
 const styles = {
     navbar: {
         backgroundColor: 'grey',
-        height: '55px'
+        height: '55px',
+        zIndex: '2'
+
     },
     container: {
-        width: DESKTOP_WIDTH,
-        margin: '0 auto',
+        marginLeft: '30px',
+        marginRight: '30px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',

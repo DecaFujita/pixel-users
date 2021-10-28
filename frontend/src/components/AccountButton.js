@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { withStyles } from '@material-ui/styles';
 import { useAuth } from '../hooks/useAuth';
+import { Transition } from 'react-transition-group';
+import DropdownMenu from './DropdownMenu';
 
 const styles = {
     menu: {
         display: 'flex',
         alignItems: 'center',
+        textAlign: 'center',
         justifyContent: 'space-between',
         background: 'none',
         border: 'none',
@@ -25,29 +28,40 @@ const styles = {
         borderRadius: '50%',
         marginLeft: '15px'
     },
-    dropdown: {
-        position: 'absolute',
-        top: '32px',
-        right: 0,
-        background: 'grey',
-        height: '200px',
-        width: '200px',
-    }
 }
 const AccountButton = props => {
     const { classes } = props;
     const { authData } = useAuth();
-    const [ open, setOpen ] = useState(false);
+    const [ isOpen, setIsOpen ] = useState(false);
+
+    const duration = 300;
+    const defaultStyle = {
+        transition: `transform ${duration}ms ease-in-out`,
+    }
+    const transitionStyles = {
+        entering: { transform: 'translateY(-500px)' },
+        entered:  { transform: 'translateY(0)'},
+        exiting:  { transform: 'translateY(0)' },
+        exited:  { transform: 'translateY(-500px)'},
+    };
+
     return (
-        <button className={classes.menu} onClick={() => setOpen(!open)}>
-            <p>{authData.user.username}</p>
-            {authData.user.profile &&
-                <img src={'http://127.0.0.1:8000'+authData.user.profile.image} alt='user avatar' className={classes.avatar} />
-            }
-            {open &&
-                <h1 className={classes.dropdown}>ok?</h1>
-            }
-        </button>
+        <Fragment>
+            <div className={classes.menu} onClick={() => setIsOpen(!isOpen)}>
+                <p>{authData.user.username}</p>
+                {authData.user.profile &&
+                    <img src={'http://127.0.0.1:8000'+authData.user.profile.image} alt='user avatar' className={classes.avatar} />
+                }
+            <Transition in={isOpen} timeout={300}>
+                {state => (
+                    <div style={{...defaultStyle, ...transitionStyles[state], zIndex:1, position:'absolute', right:'-30px', top: '-7px'}}>
+                        <DropdownMenu />
+                    </div>
+                )}
+            </Transition>             
+            </div>
+            
+        </Fragment>
     )
 }
 
