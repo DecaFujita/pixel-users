@@ -1,13 +1,14 @@
 import React from 'react';
 import { withStyles } from '@material-ui/styles';
 import { DESKTOP_WIDTH } from '../assets';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import AccountButton from './AccountButton';
 import { useAuth } from '../hooks/useAuth';
 
 const styles = {
     navbar: {
         backgroundColor: 'grey',
-        height: '5vh'
+        height: '55px'
     },
     container: {
         width: DESKTOP_WIDTH,
@@ -45,15 +46,6 @@ const styles = {
         borderBottom: '1px dashed yellow',
         transform: 'translateY(1px)'
     },
-    avatar: {
-        width: '40px',
-        height: '40px',
-        borderRadius: '50%',
-        marginLeft: '15px'
-    },
-    icon: {
-        fill: 'red'
-    }
 }
 
 const NavBar = props => {
