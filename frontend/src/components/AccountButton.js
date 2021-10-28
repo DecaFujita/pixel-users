@@ -28,6 +28,15 @@ const styles = {
         borderRadius: '50%',
         marginLeft: '15px'
     },
+    profile: {
+        display: 'flex',
+        width: '150px',
+        height: '55px',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        zIndex: 2,
+        background: 'grey'
+    }
 }
 const AccountButton = props => {
     const { classes } = props;
@@ -37,29 +46,32 @@ const AccountButton = props => {
     const duration = 300;
     const defaultStyle = {
         transition: `transform ${duration}ms ease-in-out`,
+        zIndex: 1
     }
     const transitionStyles = {
-        entering: { transform: 'translateY(-500px)' },
-        entered:  { transform: 'translateY(0)'},
+        entering: { transform: 'translateY(-300px)' },
+        entered:  { transform:  'translateY(0)' },
         exiting:  { transform: 'translateY(0)' },
-        exited:  { transform: 'translateY(-500px)'},
+        exited:  { transform:  'translateY(-300px)' },
     };
 
     return (
         <Fragment>
             <div className={classes.menu} onClick={() => setIsOpen(!isOpen)}>
-                <p>{authData.user.username}</p>
-                {authData.user.profile &&
-                    <img src={'http://127.0.0.1:8000'+authData.user.profile.image} alt='user avatar' className={classes.avatar} />
-                }
+                <div className={classes.profile}>
+                    <p>{authData.user.username}</p>
+                    {authData.user.profile &&
+                        <img src={'http://127.0.0.1:8000'+authData.user.profile.image} alt='user avatar' className={classes.avatar} />
+                    }  
+                </div>   
+            </div>
             <Transition in={isOpen} timeout={300}>
                 {state => (
-                    <div style={{...defaultStyle, ...transitionStyles[state], zIndex:1, position:'absolute', right:'-30px', top: '-7px'}}>
-                        <DropdownMenu />
+                    <div style={{...defaultStyle, ...transitionStyles[state]}}>
+                        <DropdownMenu style={{...defaultStyle, ...transitionStyles[state]}} />
                     </div>
                 )}
-            </Transition>             
-            </div>
+            </Transition>        
             
         </Fragment>
     )

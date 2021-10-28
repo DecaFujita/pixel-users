@@ -7,13 +7,14 @@ const styles = {
     dropdown: {
         width: '170px',
         position: 'absolute',
-        top: '54px',
-        right: 0,
+        top: '27px',
+        right: '-30px',
         background: 'grey',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         margin: '0 !important',
+        textAlign: 'center',
         '& button': {
             border: '1px solid white',
             background: 'transparent',
