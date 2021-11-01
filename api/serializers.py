@@ -7,10 +7,14 @@ class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
     
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+    
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ('image',)
+        fields = ('id', 'image',)
 
 class UserFollowsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,7 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer()
     class Meta:
         model = User
-        fields = ('id', 'username','email', 'password', 'profile', 'follows')
+        fields = ('id', 'username','email', 'password', 'profile')
         extra_kwargs = {'password': {'write_only': True, 'required': False}} # hiding the password
 
     def create(self, validated_data):

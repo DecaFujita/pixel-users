@@ -69,7 +69,7 @@ const NavBar = props => {
                                 <AccountButton />  
                         :
                             <div className={classes.menu}>
-                                <NavLink exact to='/signin' activeClassName={classes.active}>Sign In</NavLink>
+                                <NavLink exact to='/login' activeClassName={classes.active}>Log in</NavLink>
                                 <NavLink exact to='/signup' activeClassName={classes.active} className={classes.signup}>Sign Up</NavLink>
                             </div>
                         }

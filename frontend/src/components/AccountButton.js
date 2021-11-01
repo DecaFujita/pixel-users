@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/styles';
 import { useAuth } from '../hooks/useAuth';
 import { Transition } from 'react-transition-group';
 import DropdownMenu from './DropdownMenu';
+import genericAvatar from '../avatar-sm.png';
 
 const styles = {
     menu: {
@@ -60,8 +61,10 @@ const AccountButton = props => {
             <div className={classes.menu} onClick={() => setIsOpen(!isOpen)}>
                 <div className={classes.profile}>
                     <p>{authData.user.username}</p>
-                    {authData.user.profile &&
+                    {authData.user.profile.image ?
                         <img src={'http://127.0.0.1:8000'+authData.user.profile.image} alt='user avatar' className={classes.avatar} />
+                    :
+                        <img src={genericAvatar} alt='generic user avatar' className={classes.avatar} />
                     }  
                 </div>   
             </div>
@@ -72,7 +75,6 @@ const AccountButton = props => {
                     </div>
                 )}
             </Transition>        
-            
         </Fragment>
     )
 }

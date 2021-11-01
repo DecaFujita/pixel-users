@@ -12,4 +12,15 @@ function PublicRoute ({component: Component, authed, ...rest}) {
     )
   }
 
-export default PublicRoute;
+  function PublicRouteRev ({component: Component, authed, ...rest}) {
+    return (
+      <Route
+        {...rest}
+        render={(props) => authed 
+          ? <Component {...props} />
+          : <Redirect to={'/'} />}
+      />
+    )
+  }
+
+export { PublicRoute, PublicRouteRev };

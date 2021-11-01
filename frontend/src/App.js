@@ -2,12 +2,14 @@ import React from "react";
 import AddNew from './components/AddNew.component';
 import Gallery from './components/Gallery.component';
 import NavBar from './components/NavBar.component';
-import PublicRoute from './components/PublicRoute';
+import { PublicRoute, PublicRouteRev } from './components/PublicRoute';
 import LoginForm from "./components/LoginForm";
+import Account from './components/Account';
 import { GalleryProvider } from './contexts/GalleryContext';
 import { Route, Switch } from 'react-router-dom';
 import { DESKTOP_WIDTH } from './assets';
 import { AuthProvider } from './hooks/useAuth';
+import SignupForm from "./components/SignupForm";
 
 const App = () => {
   
@@ -32,13 +34,19 @@ const App = () => {
               />
               <PublicRoute 
                 authed={user}
-                path='/signin'
-                component={LoginForm} />
-              {/* <Route 
-                exact
-                path='/signin'
-                render={() => <LoginForm />}
-              /> */}
+                path='/signup'
+                component={SignupForm}
+              />
+              <PublicRoute 
+                authed={user}
+                path='/login'
+                component={LoginForm}
+              />
+              <PublicRouteRev 
+                authed={user}
+                path='/account'
+                component={Account}
+              />
 
               {/* PROFILEPAGE */}
           

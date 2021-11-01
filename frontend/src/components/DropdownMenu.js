@@ -1,6 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/styles';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 const styles = {
@@ -45,15 +45,17 @@ const styles = {
 const DropdownMenu = props => {
     const { classes } = props
     const { setAuth } = useAuth('');
+    const history = useHistory();
 
     const logout = () => {
         setAuth(null);
+        history.push('/');  
     }
     return (
         <div className={classes.dropdown}>
-            <Link to='/account' className={classes.dropdownItem}>Account</Link>
-            <Link to='/following' className={classes.dropdownItem}>Following</Link>
-            <Link to='/mygallery' className={classes.dropdownItem}>My gallery</Link>
+            <Link to={'/account'} className={classes.dropdownItem}>Account</Link>
+            <Link to={'/following'} className={classes.dropdownItem}>Following</Link>
+            <Link to={'/mygallery'} className={classes.dropdownItem}>My gallery</Link>
             <button onClick={() => logout()}>Log out</button>
         </div>
     )
