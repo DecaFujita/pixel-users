@@ -39,7 +39,6 @@ class UserProfileViewset(viewsets.ModelViewSet):
             user.save()
             return Response({'message': 'Password updated'}, status=status.HTTP_200_OK)
                 
-
 class UserFollowsViewset(viewsets.ModelViewSet):
     queryset = UserFollows.objects.all()
     serializer_class = UserFollowsSerializer

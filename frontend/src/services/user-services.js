@@ -54,3 +54,12 @@ export function uploadAvatar(profileId, data) {
         console.log(e);
     })
 }
+
+export function fetchAvatar(profileId) {
+    return fetch(`http://127.0.0.1:8000/api/profile/${profileId}/`)
+    .then(resp => console.log(resp.json()))
+    .catch(e => {
+        console.log(e);
+    })
+
+}
