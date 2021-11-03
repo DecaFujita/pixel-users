@@ -46,14 +46,13 @@ const styles = {
 const AddNew = props => {
     // const pixelGrid = new Array(PIXEL_SQ * PIXEL_SQ).fill(true);
     const { saveNewArt } = useContext(GalleryContext);
+    const { classes, user } = props;
     const [ formData, setFormData ] = useState({
         title: '',
-        artist: 1,
+        artist: user.user.id,
         likes: 0,
         pixelart: new Array(PIXEL_SQ * PIXEL_SQ).fill(true)
     }); //save form data
-
-    const { classes } = props;
 
     const toggle = (index, value) => {
         let newArt = formData.pixelart.map(a => a);

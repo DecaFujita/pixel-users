@@ -25,7 +25,7 @@ const Gallery = props => {
             <Link to='/add'>+ new</Link>
             <div>
                 <div className={classes.gallery}>
-                {artList.map(art => 
+                {artList && artList.map(art => 
                     <GalleryItem key={art.id} item={art}/>
                 )}
                 </div>

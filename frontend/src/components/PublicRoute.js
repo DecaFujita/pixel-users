@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from 'react-router-dom';
 
-function PublicRoute ({component: Component, authed, ...rest}) {
+export function PublicRoute ({component: Component, authed, ...rest}) {
     return (
       <Route
         {...rest}
@@ -12,7 +12,7 @@ function PublicRoute ({component: Component, authed, ...rest}) {
     )
   }
 
-  function PublicRouteRev ({component: Component, authed, ...rest}) {
+  export function PrivateRoute ({component: Component, authed, ...rest}) {
     return (
       <Route
         {...rest}
@@ -22,5 +22,3 @@ function PublicRoute ({component: Component, authed, ...rest}) {
       />
     )
   }
-
-export { PublicRoute, PublicRouteRev };

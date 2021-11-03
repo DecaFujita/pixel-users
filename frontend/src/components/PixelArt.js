@@ -17,7 +17,10 @@ const PixelArt = props => {
     
     return (
         <div className={classes.container}>
-            {JSON.parse(art).map((pixel, index) => <PixelPreview key={`pix-${index}`} on={pixel}/>)}
+            { art ? 
+                JSON.parse(art).map((pixel, index) => <PixelPreview key={`pix-${index}`} on={pixel}/>)
+            : <h1>Hello word!</h1>
+            }
         </div>
     )
 }

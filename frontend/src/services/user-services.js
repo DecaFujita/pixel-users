@@ -61,5 +61,12 @@ export function fetchAvatar(profileId) {
     .catch(e => {
         console.log(e);
     })
+}
 
+export function userInfo(id) {
+    return fetch(`http://127.0.0.1:8000/api/users/${id}/`)
+    .then(resp => console.log(resp.json()))
+    .catch(e => {
+        console.log(e);
+    })
 }

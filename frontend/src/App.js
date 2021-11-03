@@ -2,14 +2,16 @@ import React from "react";
 import AddNew from './components/AddNew.component';
 import Gallery from './components/Gallery.component';
 import NavBar from './components/NavBar.component';
-import { PublicRoute, PublicRouteRev } from './components/PublicRoute';
-import LoginForm from "./components/LoginForm";
-import Account from './components/Account';
+import { PublicRoute, PrivateRoute } from './components/PublicRoute';
+import LoginForm from "./components/user/LoginForm";
+import Account from './components/user/Account';
 import { GalleryProvider } from './contexts/GalleryContext';
 import { Route, Switch } from 'react-router-dom';
 import { DESKTOP_WIDTH } from './assets';
 import { AuthProvider } from './hooks/useAuth';
-import SignupForm from "./components/SignupForm";
+import SignupForm from "./components/user/SignupForm";
+import MyGallery from './components/user/MyGallery';
+import Following from './components/user/Following';
 
 const App = () => {
   
@@ -30,7 +32,7 @@ const App = () => {
               <Route 
                 exact
                 path='/add'
-                render={() => <AddNew />}
+                render={() => <AddNew user={user}/>}
               />
               <PublicRoute 
                 authed={user}
@@ -42,10 +44,20 @@ const App = () => {
                 path='/login'
                 component={LoginForm}
               />
-              <PublicRouteRev 
+              <PrivateRoute
                 authed={user}
                 path='/account'
                 component={Account}
+              />
+              <PrivateRoute
+                authed={user}
+                path='/mygallery'
+                component={MyGallery}
+              />
+              <PrivateRoute
+                authed={user}
+                path='/following'
+                component={Following}
               />
 
               {/* PROFILEPAGE */}

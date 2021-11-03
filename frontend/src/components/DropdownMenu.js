@@ -36,9 +36,11 @@ const styles = {
         background: 'grey',
         transition: 'background .2s linear',
         cursor: 'pointer',
+        boxSizing: 'border-box',
         '&:hover': {
             background: 'silver',
         },
+        
     }
 }
 

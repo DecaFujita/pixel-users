@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { withStyles } from '@mui/styles';
-import { useAuth } from '../hooks/useAuth';
-import DESKTOP_WIDTH from '../assets';
-import genericAvatar from '../avatar-lg.png';
+import { useAuth } from '../../hooks/useAuth';
+import DESKTOP_WIDTH from '../../assets';
+import genericAvatar from '../../avatar-lg.png';
 import { Link, useHistory } from 'react-router-dom';
-import { uploadAvatar, changePass } from '../services/user-services';
+import { uploadAvatar, changePass } from '../../services/user-services';
 import { NotificationManager } from 'react-notifications';
 
 const styles = {
