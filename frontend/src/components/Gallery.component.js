@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import GalleryItem from './GalleryItem.components';
 import { withStyles } from '@material-ui/styles';
 import { GalleryContext } from '../contexts/GalleryContext';
+import { useAuth } from '../hooks/useAuth';
+
 
 const styles = {
     container: {
@@ -19,10 +21,11 @@ const styles = {
 const Gallery = props => {
     const { artList } = useContext(GalleryContext);
     const { classes } = props;
+    const { authData } = useAuth();
 
     return(
         <div className={classes.container}>
-            <Link to='/add'>+ new</Link>
+            {authData && <Link to='/add'>+ new</Link>}
             <div>
                 <div className={classes.gallery}>
                 {artList && artList.map(art => 

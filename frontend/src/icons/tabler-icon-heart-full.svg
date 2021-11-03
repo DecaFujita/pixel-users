@@ -1,0 +1,10 @@
+<svg version="1.2" baseProfile="tiny-ps" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+	<title>tabler-icon-heart-svg</title>
+	<style>
+		tspan { white-space:pre }
+		.shp0 { fill: none } 
+		.shp1 { fill: #000000;stroke: #000000;stroke-linecap:round;stroke-linejoin:round;stroke-width: 2 } 
+	</style>
+	<path id="Layer" class="shp0" d="M0 0L24 0L24 24L0 24L0 0Z" />
+	<path id="Layer" class="shp1" d="M19.5 13.57L12 21L4.5 13.57M4.5 13.57C3.5 12.6 2.95 11.25 2.99 9.86C3.03 8.46 3.64 7.15 4.69 6.23C5.74 5.31 7.13 4.87 8.52 5.02C9.9 5.16 11.17 5.89 12 7.01C12.84 5.89 14.1 5.18 15.48 5.04C16.86 4.89 18.25 5.33 19.29 6.25C20.34 7.17 20.95 8.48 20.99 9.87C21.03 11.26 20.49 12.6 19.5 13.58" />
+</svg>

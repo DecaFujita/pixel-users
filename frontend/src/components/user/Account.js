@@ -3,7 +3,7 @@ import { withStyles } from '@mui/styles';
 import { useAuth } from '../../hooks/useAuth';
 import DESKTOP_WIDTH from '../../assets';
 import genericAvatar from '../../avatar-lg.png';
-import { Link, useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import { uploadAvatar, changePass } from '../../services/user-services';
 import { NotificationManager } from 'react-notifications';
 
@@ -80,7 +80,7 @@ const styles = {
 const Account = props => {
     const { authData, setAuth } = useAuth();
     const [image, setImage ] = useState();
-    const history = useHistory();
+    // const history = useHistory();
     const [ oldPassword, setOldPassword ] = useState(''); 
     const [ password, setPassword ] = useState(''); 
     const [ password2, setPassword2 ] = useState(''); 

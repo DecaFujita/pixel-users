@@ -10,13 +10,14 @@ import { Route, Switch } from 'react-router-dom';
 import { DESKTOP_WIDTH } from './assets';
 import { AuthProvider } from './hooks/useAuth';
 import SignupForm from "./components/user/SignupForm";
-import MyGallery from './components/user/MyGallery';
+// import MyGallery from './components/user/MyGallery';
 import Following from './components/user/Following';
+import Profile from './components/user/Profile';
+import NotFound from "./components/NotFound";
 
 const App = () => {
   
   const user = JSON.parse(localStorage.getItem('user'));
-
   return (
     <GalleryProvider>
       <AuthProvider user={user}>
@@ -49,19 +50,20 @@ const App = () => {
                 path='/account'
                 component={Account}
               />
-              <PrivateRoute
+              {/* <PrivateRoute
                 authed={user}
                 path='/mygallery'
                 component={MyGallery}
-              />
+              /> */}
               <PrivateRoute
                 authed={user}
                 path='/following'
                 component={Following}
               />
-
-              {/* PROFILEPAGE */}
-          
+              <Route exact path='/profile/:id'>
+                  <Profile />
+              </Route>
+              <Route component={NotFound}/>
             </Switch>
           </div>
         </div>
