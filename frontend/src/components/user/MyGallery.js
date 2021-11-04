@@ -1,14 +1,10 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import GalleryItem from './GalleryItem.components';
+import GalleryItem from '../GalleryItem.components';
 import { withStyles } from '@material-ui/styles';
-import { GalleryContext } from '../contexts/GalleryContext';
+import { GalleryContext } from '../../contexts/GalleryContext';
+
 
 const styles = {
-    container: {
-        marginTop: '20px',
-        marginBottom: '20px'
-    },
     gallery: {
         margin: '20px auto',
         display: 'flex',
@@ -18,17 +14,15 @@ const styles = {
 
 const MyGallery = props => {
     const { artList } = useContext(GalleryContext);
-    const { classes } = props;
+    const { classes, userId } = props;
+
 
     return(
-        <div className={classes.container}>
-            <Link to='/add'>+ new</Link>
-            <div>
-                <div className={classes.gallery}>
-                {artList && artList.map(art => 
-                    <GalleryItem key={art.id} item={art}/>
-                )}
-                </div>
+        <div>
+            <div className={classes.gallery}>
+            {artList && artList.filter(art => art.artist === parseInt(userId,10)).map(art => 
+                <GalleryItem key={art.id} item={art}/>
+            )}
             </div>
         </div>
     )

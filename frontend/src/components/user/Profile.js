@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import NotFound from '../NotFound';
 import { withStyles } from '@material-ui/styles';
 import genericAvatar from '../../avatar-lg.png';
+import MyGallery from './MyGallery';
 
 const styles = {
   avatar: {
@@ -13,7 +14,7 @@ const styles = {
     marginRight: '20px'
   },
   infoContainer: {
-    marginTop: '40px',
+    marginTop: '70px',
     display: 'flex',
     '& h1': {
       marginBottom: '10px'
@@ -33,7 +34,10 @@ const styles = {
     }
   },
   usersGallery: {
-    marginTop: '60px',
+    marginTop: '70px',
+    '& h3': {
+      marginBottom: '30px',
+    }
   }
 }
 
@@ -59,7 +63,7 @@ const Profile = props => {
       {user.profile.image
         ? <img src={user.profile.image} alt='user avatar' className={classes.avatar}/>
         : <img src={genericAvatar} alt='user avatar' className={classes.avatar}/>
-    } 
+      } 
       <div>
         <h1>{user.username}</h1>
         <p> Following: xx</p>
@@ -69,6 +73,7 @@ const Profile = props => {
       </div>
       <div className={classes.usersGallery}>
         <h3>{user.username}'s art gallery</h3>
+        <MyGallery userId={id} />
       </div>
     </div>
         
