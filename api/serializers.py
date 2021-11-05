@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from .models import Art, UserProfile, UserFollows
+from .models import Art, ArtLikes, Comments, UserProfile, UserFollows
 
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
@@ -21,11 +21,29 @@ class UserFollowsSerializer(serializers.ModelSerializer):
         model = UserFollows
         fields = ('user', 'following',)
 
+class ArtLikesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ArtLikes
+        fields = ('art', 'likes',)
+
+class CommentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comments
+        fields = ('art', 'user', 'comment',)
+
+class ArtSerializer(serializers.ModelSerializer):
+    liked_by = ArtLikesSerializer()
+    commented_on = CommentsSerializer()
+    class Meta:
+        model = Art
+        fields = ('id', 'title','artist', 'pixelart','timestamp','liked_by', 'commented_on')
+
 class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer()
+    follows = UserFollowsSerializer() 
     class Meta:
         model = User
-        fields = ('id', 'username','email', 'password', 'profile')
+        fields = ('id', 'username','email', 'password', 'profile', 'follows','created_by')
         extra_kwargs = {'password': {'write_only': True, 'required': False}} # hiding the password
 
     def create(self, validated_data):
@@ -36,8 +54,3 @@ class UserSerializer(serializers.ModelSerializer):
         # UserFollows.objects.create(user=user, **follow_data)
         Token.objects.create(user=user)
         return user
-
-class ArtSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Art
-        fields = ('id', 'title','artist', 'likes', 'pixelart')

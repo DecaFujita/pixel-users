@@ -3,6 +3,10 @@ import PixelArt from './PixelArt';
 import { withStyles } from '@material-ui/styles';
 import { Link } from 'react-router-dom';
 import { GalleryContext } from '../contexts/GalleryContext';
+import { PIXEL_SQ } from '../assets';
+
+
+
 const styles = {
     item: {
         marginRight: '20px',
@@ -25,17 +29,21 @@ const styles = {
     likes: {
         display: 'flex',
         alignItems: 'center',
+
         '& p': {
-            marginLeft: '5px'
+            marginRight: '5px'
         } 
     }
 }
 
 const GalleryItem = props => {
-    const { users } = useContext(GalleryContext);
+    const { users, likes } = useContext(GalleryContext);
     const { classes, item } = props;
+    const pixelSquare = PIXEL_SQ * 12;
+    // const [ isLiked, setIsLiked ] = useState;
 
     let artist = 'loading...'
+    let numLikes = ''
     if (users) {
         artist = users.find(user => user.id === item.artist);
     }
@@ -43,15 +51,17 @@ const GalleryItem = props => {
     return(
         <div className={classes.item}>
             <Fragment>
-                <PixelArt art={item.pixelart}/>
+                <PixelArt pixelart={item.pixelart} artId={item.id} pixelSquare={pixelSquare}/>
                 <div className={classes.caption}>
                     <Link to={`/profile/${artist.id}`} className={classes.userlink}>{artist.username}</Link>
                     <div  className={classes.likes}>
-                        {/* <i class="fas fa-heart"/> */}
-                        <i class="far fa-heart"/>
-                        <p>{item.likes}</p>
+                        { numLikes 
+                            ? <p>{item.art.liked_by.likes.length}</p>
+                            : <p>0</p>
+                        }
+                        {/* <i className="fas fa-heart"/> */}
+                        <i className="far fa-heart"/>
                     </div>
-                    
                 </div>
             </Fragment>
         </div>

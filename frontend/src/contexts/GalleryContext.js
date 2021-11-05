@@ -7,6 +7,7 @@ const GalleryProvider = props => {
     const [ artList, setArtList ] = useState(null);
     const [ users, setUsers ] = useState(null);
     const [ loading, setLoading ] = useState(false);
+    const [ likes, setLikes ] = useState(null);
     // const [ error, setError ] = useState(false);
   
     const loadArt = async() => {
@@ -25,6 +26,16 @@ const GalleryProvider = props => {
       .then(resp => resp.json())
       .then(data => {
         setUsers(data);
+      })
+      setLoading(false)
+    }
+
+    const loadLikes = async() => {
+      setLoading(true)
+      await fetch('http://127.0.0.1:8000/api/likes/')
+      .then(resp => resp.json())
+      .then(data => {
+        setLikes(data);
       })
       setLoading(false)
     }
@@ -48,12 +59,15 @@ const GalleryProvider = props => {
     useEffect(() => {
         loadArt();
         loadUsers();
+        loadLikes();
       }, [])
 
+      
       // if (error) return <h1>Error</h1>
       if (loading) return <h1>Loading...</h1>
     return (
-        <GalleryContext.Provider value={{artList, saveNewArt, users}}>
+
+        <GalleryContext.Provider value={{artList, saveNewArt, users, likes}}>
           {props.children}
         </GalleryContext.Provider>
     )

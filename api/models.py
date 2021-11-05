@@ -12,16 +12,40 @@ class UserProfile(models.Model):
 
 class UserFollows(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='follows')
-    following = models.ManyToManyField(User, blank=True)
+    following = models.ManyToManyField(User, blank=True, related_name='followed_by')
 
+    class Meta:
+        verbose_name_plural = "User follows"
+
+    def __str__(self):
+       return self.user
+       
 class Art(models.Model):
     title = models.CharField(max_length=120)
     artist = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_by')
     pixelart = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    likes = models.IntegerField(default=0)
 
+    def __str__(self):
+       return self.title
 
-    def _str_(self):
-        return self.title
+class ArtLikes(models.Model):
+    art = models.OneToOneField(Art, on_delete=models.CASCADE, related_name='liked_by')
+    likes = models.ManyToManyField(User, blank=True)
 
+    class Meta:
+        verbose_name_plural = "Art likes"
+
+    def __str__(self):
+       return self.art
+
+class Comments(models.Model):
+    art = models.OneToOneField(Art, on_delete=models.CASCADE, related_name='commented_on')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='commented_by')
+    comment = models.TextField()
+
+    class Meta:
+        verbose_name_plural = "Art comments"
+
+    def __str__(self):
+       return self.art

@@ -44,8 +44,8 @@ export function changePass(userData, userId, token) {
     })
 }
 
-export function uploadAvatar(profileId, data) {
-    return fetch(`http://127.0.0.1:8000/api/profile/${profileId}/`, {
+export function uploadAvatar(id, data) {
+    return fetch(`http://127.0.0.1:8000/api/profile/${id}/`, {
         method: 'PUT', //Updating API
         body: data
     })
@@ -55,8 +55,8 @@ export function uploadAvatar(profileId, data) {
     })
 }
 
-export function fetchAvatar(profileId) {
-    return fetch(`http://127.0.0.1:8000/api/profile/${profileId}/`)
+export function fetchAvatar(id) {
+    return fetch(`http://127.0.0.1:8000/api/profile/${id}/`)
     .then(resp => console.log(resp.json()))
     .catch(e => {
         console.log(e);

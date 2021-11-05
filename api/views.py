@@ -7,8 +7,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from api.serializers import UserSerializer, ChangePasswordSerializer
 from rest_framework import viewsets
-from .models import Art, UserProfile, UserFollows
-from api.serializers import ArtSerializer, UserProfileSerializer, UserFollowsSerializer
+from .models import Art, ArtLikes, Comments, UserProfile, UserFollows
+from api.serializers import ArtSerializer, ArtLikesSerializer, CommentsSerializer,UserProfileSerializer, UserFollowsSerializer
 from rest_framework.authentication import TokenAuthentication
 # from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 
@@ -31,7 +31,6 @@ class UserProfileViewset(viewsets.ModelViewSet):
         user = User.objects.get(pk=pk)
         serializer = ChangePasswordSerializer(data=request.data)
         
-
         if serializer.is_valid():
             if not user.check_password(serializer.data.get('old_password')):
                 return Response({'message': 'Wrong old password'}, status=status.HTTP_400_BAD_REQUEST)
@@ -46,6 +45,14 @@ class UserFollowsViewset(viewsets.ModelViewSet):
 class ArtViewset(viewsets.ModelViewSet):
     queryset = Art.objects.all()
     serializer_class = ArtSerializer
+
+class ArtLikesViewset(viewsets.ModelViewSet):
+    queryset = ArtLikes.objects.all()
+    serializer_class = ArtLikesSerializer
+
+class ArtCommentsViewset(viewsets.ModelViewSet):
+    queryset = Comments.objects.all()
+    serializer_class = CommentsSerializer
 
 class CustomObtainAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):

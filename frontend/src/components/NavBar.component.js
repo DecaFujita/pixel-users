@@ -1,6 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/styles';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import AccountButton from './AccountButton';
 import { useAuth } from '../hooks/useAuth';
 
@@ -24,6 +24,7 @@ const styles = {
         color: 'white',
         marginRight: '20px',
         transform: 'translateY(-2px)',
+        cursor: 'pointer',
         '& span': {
             color: 'yellow'
         }
@@ -49,16 +50,23 @@ const styles = {
     },
 }
 
+
+
+
 const NavBar = props => {
     const { classes } = props
     const { authData } = useAuth();
+    const history = useHistory();
+    const routeIndex = () =>{ 
+        history.push('/');
+      }
 
     return(
         <div>
             <div className={classes.navbar}>
                 <div className={classes.container}>
                     <div className={classes.menu}>
-                        <div className={classes.logo}><span>PixelArt</span>Gallery</div>
+                        <div className={classes.logo} onClick={routeIndex}><span>PixelArt</span>Gallery</div>
                         <NavLink exact to='/' activeClassName={classes.active}>Home</NavLink>
                         <NavLink exact to='/cathegories' activeClassName={classes.active}>Cathegories</NavLink>
                         <NavLink exact to='/artists' activeClassName={classes.active}>Artists</NavLink>

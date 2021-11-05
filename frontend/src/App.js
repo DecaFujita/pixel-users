@@ -14,6 +14,7 @@ import SignupForm from "./components/user/SignupForm";
 import Following from './components/user/Following';
 import Profile from './components/user/Profile';
 import NotFound from "./components/NotFound";
+import ArtView from "./components/ArtView";
 
 const App = () => {
   
@@ -62,6 +63,10 @@ const App = () => {
               />
               <Route exact path='/profile/:id'>
                   <Profile />
+              </Route>
+
+              <Route exact path='/art/:id'>
+                  <ArtView />
               </Route>
               <Route component={NotFound}/>
             </Switch>

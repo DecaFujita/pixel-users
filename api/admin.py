@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Art, UserProfile, UserFollows
+from .models import Art, ArtLikes, UserProfile, UserFollows
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
@@ -17,4 +17,19 @@ class UserFollowsAdmin(admin.ModelAdmin):
 
 @admin.register(Art)
 class ArtAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title','artist', 'likes')
+    list_display = ('id', 'title','artist')
+
+@admin.register(ArtLikes)
+class ArtLikesAdmin(admin.ModelAdmin):
+    def likes_count(self, obj):
+        return obj.likes.count()
+    likes_count.short_description = "Likes"
+    list_display = ('art', 'likes_count')
+
+    verbose_name_plural = "likes"
+
+class ArtCommentsAdmin(admin.ModelAdmin):
+    list_display = ('art', 'user', 'comment')
+
+    verbose_name_plural = "comments"
+
