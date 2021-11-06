@@ -66,7 +66,7 @@ const Profile = props => {
       } 
       <div>
         <h1>{user.username}</h1>
-        <p> Following: {user.follows.following.length}</p>
+        <p> Following: xx</p>
         <p> Followed by: xx</p>
         <button> Follow </button>
       </div>

@@ -65,8 +65,9 @@ const styles = {
 
 const ArtView = props => {
     const { id } = useParams();
-    const { artList, users } = useContext(GalleryContext);
+    const { artList, users, likes} = useContext(GalleryContext);
     const [ art, setArt ] = useState(null);
+    const [ nLikes, setNLikes ] = useState(null)
     const [ user, setUser ] = useState(null);
     const pixelSquare = PIXEL_SQ * 20;
     const { classes } = props;
@@ -76,17 +77,41 @@ const ArtView = props => {
     }
 
     useEffect(() => {
+        let didMount = false;
+        
+        const fetchLikes = async () => {
+            if (!didMount) {
+                let response = await fetch('http://127.0.0.1:8000/api/likes/');
+                let data = await response.json();
+                let filteredData = await data.find(d => d.art === parseInt(id, 10))
+                setNLikes(filteredData.likes.length)
+                // .then(resp => resp.json())
+                // .then(data => {
+                //     let likes = data.find( d => d.art === 1)
+                //     let nLikes = likes.likes.length
+                //     setNLikes(nLikes);
+                // })
+            }  
+        }
+        fetchLikes()
+    }, []) 
+    
+    
+     
+  
+
+    useEffect(() => {
+       
         if (artList) {
             let artPiece = artList.find(art => art.id === parseInt(id, 10))
             setArt(artPiece);
-            console.log(artPiece.artist)
-        } 
-        if (users) { 
-            let name = users.find(user => user.id === 1)
-            setUser(name);
-        } 
-    }, [])
+            if (users) { 
+                let name = users.find(user => user.id === artPiece.artist)
+                setUser(name);
+            }
+        }
 
+    }, [])
     return (
         <Fragment>
         { art &&
@@ -102,7 +127,9 @@ const ArtView = props => {
                     </div>
                     <div className={classes.text} style={{marginTop:'15px'}}>
                     <i className="far fa-heart"/>
-                    <p style={{marginLeft:'5px'}}>{art.liked_by.likes.length}</p>
+                    {likes && 
+                        <p style={{marginLeft:'5px'}}>{nLikes}</p>
+                    }
                     </div>
                     <div className={classes.btns}>
                         {false ? 
@@ -119,7 +146,7 @@ const ArtView = props => {
             <div>
                     <h3>Comments</h3>
                     <div className={classes.text} style={{marginTop: '10px'}}>
-                    <i class="fas fa-plus-square" style={{color: 'gold', marginRight: '10px'}}/>
+                    <i className="fas fa-plus-square" style={{color: 'gold', marginRight: '10px'}}/>
                     <p> New comment</p>
                     </div>
                 </div>

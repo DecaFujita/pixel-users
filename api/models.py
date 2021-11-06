@@ -22,7 +22,7 @@ class UserFollows(models.Model):
        
 class Art(models.Model):
     title = models.CharField(max_length=120)
-    artist = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_by')
+    artist = models.ForeignKey(User, on_delete=models.CASCADE, related_name='artwork')
     pixelart = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 

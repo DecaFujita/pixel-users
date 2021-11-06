@@ -91,6 +91,7 @@ const AddNew = props => {
                             <input
                                 id='art-title'
                                 type='text'
+                                autocomplete="off"
                                 placeholder='Name your pixelart!'
                                 value={formData.title}
                                 onChange={handleTitleChange}
