@@ -94,11 +94,12 @@ const ArtView = props => {
             }  
         }
         fetchLikes()
+        
+        return () => {
+            didMount  = true;
+        }
     }, []) 
     
-    
-     
-  
 
     useEffect(() => {
        
