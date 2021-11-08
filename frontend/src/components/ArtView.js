@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect, Fragment } from 'react';
 import { withStyles } from '@material-ui/styles';
 import PixelArt from './PixelArt';
 import { useParams, Link } from 'react-router-dom';
-import { GalleryContext } from '../contexts/GalleryContext';
 import { PIXEL_SQ } from '../assets';
 
 const styles = {
@@ -65,54 +64,63 @@ const styles = {
 
 const ArtView = props => {
     const { id } = useParams();
-    const { artList, users, likes} = useContext(GalleryContext);
     const [ art, setArt ] = useState(null);
-    const [ nLikes, setNLikes ] = useState(null)
+    const [ likes, setLikes ] = useState(null);
     const [ user, setUser ] = useState(null);
     const pixelSquare = PIXEL_SQ * 20;
     const { classes } = props;
     let time;
+
     if (art) {
         time = new Date(art.timestamp).toLocaleString("en-US")
     }
 
-    useEffect(() => {
-        let didMount = false;
-        
-        const fetchLikes = async () => {
-            if (!didMount) {
-                let response = await fetch('http://127.0.0.1:8000/api/likes/');
-                let data = await response.json();
-                let filteredData = await data.find(d => d.art === parseInt(id, 10))
-                setNLikes(filteredData.likes.length)
-                // .then(resp => resp.json())
-                // .then(data => {
-                //     let likes = data.find( d => d.art === 1)
-                //     let nLikes = likes.likes.length
-                //     setNLikes(nLikes);
-                // })
-            }  
-        }
-        fetchLikes()
-        
-        return () => {
-            didMount  = true;
-        }
-    }, []) 
-    
+
+
+    const fetcher = async(path) => {
+        let response = await fetch('http://127.0.0.1:8000/api' + path);
+        return await response.json()
+    }
 
     useEffect(() => {
-       
-        if (artList) {
-            let artPiece = artList.find(art => art.id === parseInt(id, 10))
-            setArt(artPiece);
-            if (users) { 
-                let name = users.find(user => user.id === artPiece.artist)
-                setUser(name);
+        let isSubscribed = true;
+        async function getData() {
+            try {
+                let likes = await fetcher('/likes')
+                let filteredLikes = likes.find(res => res.art === parseInt(id, 10))
+                let numLikes = filteredLikes.likes.length
+                isSubscribed && setLikes(numLikes)
+            } catch (error) {
+                console.log('error: ' + error);
             }
         }
-
+        getData()
+        return () => (isSubscribed = false)
     }, [])
+
+      
+    useEffect(() => {
+        let isSubscribed = true;
+        async function getData() {
+            try {
+                let [artList, users] = await Promise.all([fetcher('/art'), fetcher('/users')]);
+                let art = artList.find(item => item.id === parseInt(id,10));
+                let user = users.find(item => item.id === art.artist);
+                if (isSubscribed) {
+                    setArt(art);
+                    setUser(user);
+                }
+            } catch (error) {
+                console.log('error: ' + error);
+            }
+        };
+      getData();
+
+      return () => (isSubscribed = false)
+    }, [])
+
+    
+
     return (
         <Fragment>
         { art &&
@@ -123,13 +131,16 @@ const ArtView = props => {
                     <h2>{art.title}</h2>
                     <div className={classes.text}>
                         <p>by</p>
+                       {user &&
                         <Link to={`/profile/${user.id}`} className={classes.artist}>{user.username}</Link>
+                       }
                         <p className={classes.sm}>on {time}</p>
                     </div>
                     <div className={classes.text} style={{marginTop:'15px'}}>
                     <i className="far fa-heart"/>
-                    {likes && 
-                        <p style={{marginLeft:'5px'}}>{nLikes}</p>
+                    {likes 
+                        ? <p style={{marginLeft:'5px'}}>{likes}</p>
+                        : <p style={{marginLeft:'5px'}}>0</p>
                     }
                     </div>
                     <div className={classes.btns}>
