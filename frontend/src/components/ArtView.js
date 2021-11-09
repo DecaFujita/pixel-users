@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/styles';
 import PixelArt from './PixelArt';
 import { useParams, Link } from 'react-router-dom';
 import { PIXEL_SQ } from '../assets';
+import NotFound from './NotFound';
 
 const styles = {
     container: {
@@ -66,16 +67,15 @@ const ArtView = props => {
     const { id } = useParams();
     const [ art, setArt ] = useState(null);
     const [ likes, setLikes ] = useState(null);
-    const [ user, setUser ] = useState(null);
+    const [ artist, setArtist ] = useState(null);
+    const [ heart, setHeart ] = useState(false);  
     const pixelSquare = PIXEL_SQ * 20;
-    const { classes } = props;
+    const { classes, user } = props;
     let time;
 
     if (art) {
         time = new Date(art.timestamp).toLocaleString("en-US")
     }
-
-
 
     const fetcher = async(path) => {
         let response = await fetch('http://127.0.0.1:8000/api' + path);
@@ -84,17 +84,19 @@ const ArtView = props => {
 
     useEffect(() => {
         let isSubscribed = true;
-        async function getData() {
+        async function getLikes() {
             try {
                 let likes = await fetcher('/likes')
-                let filteredLikes = likes.find(res => res.art === parseInt(id, 10))
-                let numLikes = filteredLikes.likes.length
-                isSubscribed && setLikes(numLikes)
+                let filteredLikes = await likes.find(res => res.art === parseInt(id, 10))
+                let userHeart = await filteredLikes.likes.includes(user.user.id)
+                isSubscribed && setHeart(userHeart)
+                // let numLikes = filteredLikes.likes.length
+                isSubscribed && setLikes(filteredLikes)
             } catch (error) {
                 console.log('error: ' + error);
             }
         }
-        getData()
+        getLikes()
         return () => (isSubscribed = false)
     }, [])
 
@@ -105,10 +107,10 @@ const ArtView = props => {
             try {
                 let [artList, users] = await Promise.all([fetcher('/art'), fetcher('/users')]);
                 let art = artList.find(item => item.id === parseInt(id,10));
-                let user = users.find(item => item.id === art.artist);
+                let artist = users.find(item => item.id === art.artist);
                 if (isSubscribed) {
                     setArt(art);
-                    setUser(user);
+                    setArtist(artist);
                 }
             } catch (error) {
                 console.log('error: ' + error);
@@ -119,11 +121,32 @@ const ArtView = props => {
       return () => (isSubscribed = false)
     }, [])
 
+    const handleLike = async(like_action) => {
+        let newLikes = [];
+        if (!likes) {
+            newLikes.push(user.user.id)
+        } else {
+            if (like_action == 'unlikeIt') {
+                newLikes = likes.likes.filter(el => el != user.user.id)
+            } else {
+                newLikes = likes.likes.map(el => el)
+                newLikes.push(user.user.id)
+            } 
+        }
+        await fetch(`http://127.0.0.1:8000/api/likes/${likes.id}/`, {
+            method: 'PATCH',
+            body: JSON.stringify({ 
+                likes: newLikes
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        })
+    }
     
-
     return (
         <Fragment>
-        { art &&
+        { art ?
             <div>
             <div className={classes.container}>
                 <PixelArt pixelart={art.pixelart} pixelSquare={pixelSquare} />
@@ -131,17 +154,24 @@ const ArtView = props => {
                     <h2>{art.title}</h2>
                     <div className={classes.text}>
                         <p>by</p>
-                       {user &&
-                        <Link to={`/profile/${user.id}`} className={classes.artist}>{user.username}</Link>
+                       {artist &&
+                        <Link to={`/profile/${artist.id}`} className={classes.artist}>{artist.username}</Link>
                        }
                         <p className={classes.sm}>on {time}</p>
                     </div>
+                    {console.log('HEART <3', heart)}
                     <div className={classes.text} style={{marginTop:'15px'}}>
-                    <i className="far fa-heart"/>
+                    {heart
+                        ? <i className="fas fa-heart" onClick={() => handleLike('unlikeIt')}/>
+                        : <i className="far fa-heart" onClick={() => handleLike('likeIt')}/>
+                    }
+                
                     {likes 
-                        ? <p style={{marginLeft:'5px'}}>{likes}</p>
+                        ? <p style={{marginLeft:'5px'}}>{likes.likes.length}</p>
                         : <p style={{marginLeft:'5px'}}>0</p>
                     }
+                    
+                   
                     </div>
                     <div className={classes.btns}>
                         {false ? 
@@ -163,6 +193,8 @@ const ArtView = props => {
                     </div>
                 </div>
             </div>  
+        :
+        <NotFound />
         }
         </Fragment>
     ) 

@@ -20,7 +20,7 @@ class UserFollowsSerializer(serializers.ModelSerializer):
 class ArtLikesSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArtLikes
-        fields = ('art', 'likes',)
+        fields = ('id', 'art', 'likes',)
 
 class CommentsSerializer(serializers.ModelSerializer):
     class Meta:

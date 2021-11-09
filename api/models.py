@@ -18,7 +18,7 @@ class UserFollows(models.Model):
         verbose_name_plural = "User follows"
 
     def __str__(self):
-       return self.user
+       return str(self.user)
        
 class Art(models.Model):
     title = models.CharField(max_length=120)
@@ -27,7 +27,7 @@ class Art(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-       return self.title
+       return str(self.title)
 
 class ArtLikes(models.Model):
     art = models.OneToOneField(Art, on_delete=models.CASCADE, related_name='liked_by')
@@ -37,7 +37,7 @@ class ArtLikes(models.Model):
         verbose_name_plural = "Art likes"
 
     def __str__(self):
-       return self.art
+       return str(self.art)
 
 class Comments(models.Model):
     art = models.OneToOneField(Art, on_delete=models.CASCADE, related_name='commented_on')
@@ -48,4 +48,4 @@ class Comments(models.Model):
         verbose_name_plural = "Art comments"
 
     def __str__(self):
-       return self.art
+       return str(self.art)

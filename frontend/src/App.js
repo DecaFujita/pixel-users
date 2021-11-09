@@ -66,7 +66,7 @@ const App = () => {
               </Route>
 
               <Route exact path='/art/:id'>
-                  <ArtView />
+                  <ArtView user={user}/>
               </Route>
               <Route component={NotFound}/>
             </Switch>
