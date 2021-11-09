@@ -69,6 +69,7 @@ const ArtView = props => {
     const [ likes, setLikes ] = useState(null);
     const [ artist, setArtist ] = useState(null);
     const [ heart, setHeart ] = useState(false);  
+    const [ load, setLoad] = useState(false);
     const pixelSquare = PIXEL_SQ * 20;
     const { classes, user } = props;
     let time;
@@ -88,8 +89,10 @@ const ArtView = props => {
             try {
                 let likes = await fetcher('/likes')
                 let filteredLikes = await likes.find(res => res.art === parseInt(id, 10))
-                let userHeart = await filteredLikes.likes.includes(user.user.id)
-                isSubscribed && setHeart(userHeart)
+                if (user) {
+                    let userHeart = await filteredLikes.likes.includes(user.user.id)
+                    isSubscribed && setHeart(userHeart)
+                }
                 // let numLikes = filteredLikes.likes.length
                 isSubscribed && setLikes(filteredLikes)
             } catch (error) {
@@ -98,7 +101,7 @@ const ArtView = props => {
         }
         getLikes()
         return () => (isSubscribed = false)
-    }, [])
+    }, [load])
 
       
     useEffect(() => {
@@ -142,6 +145,7 @@ const ArtView = props => {
                 'Content-type': 'application/json; charset=UTF-8'
             }
         })
+        setLoad(!load);
     }
     
     return (
@@ -159,12 +163,18 @@ const ArtView = props => {
                        }
                         <p className={classes.sm}>on {time}</p>
                     </div>
-                    {console.log('HEART <3', heart)}
                     <div className={classes.text} style={{marginTop:'15px'}}>
-                    {heart
-                        ? <i className="fas fa-heart" onClick={() => handleLike('unlikeIt')}/>
-                        : <i className="far fa-heart" onClick={() => handleLike('likeIt')}/>
+                    {user ? 
+                        <Fragment>
+                            {heart
+                                ? <i className="fas fa-heart" onClick={() => handleLike('unlikeIt')}/>
+                                : <i className="far fa-heart" onClick={() => handleLike('likeIt')}/>
+                            }
+                        </Fragment>
+                    :
+                        <i className="far fa-heart"/>
                     }
+                   
                 
                     {likes 
                         ? <p style={{marginLeft:'5px'}}>{likes.likes.length}</p>
@@ -173,24 +183,29 @@ const ArtView = props => {
                     
                    
                     </div>
-                    <div className={classes.btns}>
-                        {false ? 
-                            <Fragment>
-                                <button className={classes.btnFill}>Cutared</button>
-                                <button className={classes.btn}>Remove from collection</button>
-                            </Fragment>
-                        :
-                            <button className={classes.btnStr}>Save to collection</button>
-                        }
-                    </div>
+                    {user &&
+                        <div className={classes.btns}>
+                            {false ? 
+                                <Fragment>
+                                    <button className={classes.btnFill}>Cutared</button>
+                                    <button className={classes.btn}>Remove from collection</button>
+                                </Fragment>
+                            :
+                                <button className={classes.btnStr}>Save to collection</button>
+                            }
+                        </div>
+                    }
                 </div>
             </div>  
             <div>
                     <h3>Comments</h3>
-                    <div className={classes.text} style={{marginTop: '10px'}}>
-                    <i className="fas fa-plus-square" style={{color: 'gold', marginRight: '10px'}}/>
-                    <p> New comment</p>
-                    </div>
+                    {user &&
+                        <div className={classes.text} style={{marginTop: '10px'}}>
+                            <i className="fas fa-plus-square" style={{color: 'gold', marginRight: '10px'}}/>
+                            <p> New comment</p>
+                        </div>
+                    }
+                    
                 </div>
             </div>  
         :
