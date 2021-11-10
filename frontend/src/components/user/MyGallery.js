@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import GalleryItem from '../GalleryItem.components';
 import { withStyles } from '@material-ui/styles';
-import { GalleryContext } from '../../contexts/GalleryContext';
-
+import { useAuth } from '../../hooks/useAuth';
 
 const styles = {
     gallery: {
@@ -12,15 +11,43 @@ const styles = {
     }
 }
 
+
+
 const MyGallery = props => {
-    const { artList } = useContext(GalleryContext);
-    const { classes, userId } = props;
+    const { classes } = props;
+    const [ artList, setArtList ] = useState(null);
+    const { authData } = useAuth();    
+
+
+    const fetcher = async(path) => {
+        let response = await fetch('http://127.0.0.1:8000/api' + path);
+        return await response.json()
+    }
+
+    useEffect(() => {
+        let isSubscribed = true;
+        
+        const getArt = async() => {
+            try {
+                const art = await fetcher('/art');
+                let filteredArt = art.filter(el => el.artist === authData.user.id)
+                isSubscribed && setArtList(filteredArt)
+            } catch (error) {
+                console.log('error: ' + error)
+            }
+        };
+        
+        getArt();
+        return () => (isSubscribed = false)
+    }, [])
+    
+    
 
 
     return(
         <div>
             <div className={classes.gallery}>
-            {artList && artList.filter(art => art.artist === parseInt(userId,10)).map(art => 
+            {artList && artList.map( art => 
                 <GalleryItem key={art.id} item={art}/>
             )}
             </div>

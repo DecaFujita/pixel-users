@@ -78,7 +78,7 @@ const styles = {
 }
 
 const Account = props => {
-    const { authData, setAuth } = useAuth();
+    const { authData } = useAuth();
     const [image, setImage ] = useState();
     // const history = useHistory();
     const [ oldPassword, setOldPassword ] = useState(''); 

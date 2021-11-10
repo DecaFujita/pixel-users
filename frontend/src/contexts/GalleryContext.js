@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
+import Loading from '../components/Loading';
 // import { uuid } from 'uuidv4';
 // import useAPI from '../hooks/useAPI';
 const GalleryContext = createContext();
@@ -64,7 +65,7 @@ const GalleryProvider = props => {
 
       
       // if (error) return <h1>Error</h1>
-      if (loading) return <h1>Loading...</h1>
+      if (loading) return <Loading />
     return (
 
         <GalleryContext.Provider value={{artList, saveNewArt, users, likes}}>
