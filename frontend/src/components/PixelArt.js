@@ -1,6 +1,5 @@
 import React from 'react';
 import { withStyles } from '@material-ui/styles';
-import { PIXEL_SQ } from '../assets';
 import PixelPreview from './PixelPreview';
 import { useHistory } from 'react-router-dom';
 

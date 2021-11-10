@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { withStyles } from '@material-ui/styles';
 import PixelArt from './PixelArt';
 import { useParams, Link } from 'react-router-dom';
 import { PIXEL_SQ } from '../assets';
-import NotFound from './NotFound';
+import Loading from './Loading';
 
 const styles = {
     container: {
@@ -55,11 +55,18 @@ const styles = {
     },
     btnStr: {
         marginTop: '70px',
-        border: 'none',
         width: '180px',
         height: '40px',
         background: 'white',
         border: '2px solid gold'
+    },
+    signUp: {
+        marginTop: '20px !important',
+        fontSize: '12px',
+        '& a': {
+            textDecoration: 'none',
+            fontWeight: 'bold'
+        }
     }
 }
 
@@ -129,8 +136,8 @@ const ArtView = props => {
         if (!likes) {
             newLikes.push(user.user.id)
         } else {
-            if (like_action == 'unlikeIt') {
-                newLikes = likes.likes.filter(el => el != user.user.id)
+            if (like_action === 'unlikeIt') {
+                newLikes = likes.likes.filter(el => el !== user.user.id)
             } else {
                 newLikes = likes.likes.map(el => el)
                 newLikes.push(user.user.id)
@@ -183,7 +190,7 @@ const ArtView = props => {
                     
                    
                     </div>
-                    {user &&
+                    {user ?
                         <div className={classes.btns}>
                             {false ? 
                                 <Fragment>
@@ -194,22 +201,26 @@ const ArtView = props => {
                                 <button className={classes.btnStr}>Save to collection</button>
                             }
                         </div>
+                    :
+                        <div className={classes.signUp}>Not a member yet? Sign up <Link to={'/signup'}>here.</Link></div>
                     }
                 </div>
             </div>  
             <div>
-                    <h3>Comments</h3>
-                    {user &&
-                        <div className={classes.text} style={{marginTop: '10px'}}>
-                            <i className="fas fa-plus-square" style={{color: 'gold', marginRight: '10px'}}/>
-                            <p> New comment</p>
-                        </div>
-                    }
-                    
+                <h3>Comments</h3>
+                {user &&
+                    <div className={classes.text} style={{marginTop: '10px'}}>
+                        <i className="fas fa-plus-square" style={{color: 'gold', marginRight: '10px'}}/>
+                        <p> New comment</p>
+                    </div>
+                }
+                
                 </div>
             </div>  
         :
-        <NotFound />
+        <div>
+           <Loading />
+        </div>
         }
         </Fragment>
     ) 

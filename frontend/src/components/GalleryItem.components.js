@@ -37,7 +37,7 @@ const styles = {
 }
 
 const GalleryItem = props => {
-    const { users, likes } = useContext(GalleryContext);
+    const { users } = useContext(GalleryContext);
     const { classes, item } = props;
     const pixelSquare = PIXEL_SQ * 12;
     // const [ isLiked, setIsLiked ] = useState;

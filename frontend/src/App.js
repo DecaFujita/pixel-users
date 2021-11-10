@@ -15,6 +15,7 @@ import Following from './components/user/Following';
 import Profile from './components/user/Profile';
 import NotFound from "./components/NotFound";
 import ArtView from "./components/ArtView";
+import MyGallery from './components/user/MyGallery';
 
 const App = () => {
   
@@ -51,11 +52,15 @@ const App = () => {
                 path='/account'
                 component={Account}
               />
-              {/* <PrivateRoute
+              {/* <Route
+                path='/mygallery'
+                render={() => <MyGallery user={user}/>}
+              /> */}
+              <PrivateRoute
                 authed={user}
                 path='/mygallery'
                 component={MyGallery}
-              /> */}
+              />
               <PrivateRoute
                 authed={user}
                 path='/following'

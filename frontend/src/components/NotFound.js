@@ -12,7 +12,8 @@ const styles = {
 }
 
 const NotFound = props => {
-    const { classes, info } = props
+    const { classes, info } = props;
+
     return (
         <div className={classes.title}>
             {info
