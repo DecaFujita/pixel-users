@@ -55,6 +55,8 @@ const AccountButton = props => {
         exiting:  { transform: 'translateY(0)' },
         exited:  { transform:  'translateY(-300px)' },
     };
+    
+
 
     return (
         <Fragment>
