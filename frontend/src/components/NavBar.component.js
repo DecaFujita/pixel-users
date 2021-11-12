@@ -68,7 +68,6 @@ const NavBar = props => {
                     <div className={classes.menu}>
                         <div className={classes.logo} onClick={routeIndex}><span>PixelArt</span>Gallery</div>
                         <NavLink exact to='/' activeClassName={classes.active}>Home</NavLink>
-                        <NavLink exact to='/cathegories' activeClassName={classes.active}>Cathegories</NavLink>
                         <NavLink exact to='/artists' activeClassName={classes.active}>Artists</NavLink>
                         <NavLink exact to='/newest' activeClassName={classes.active}>Newest</NavLink>
                     </div>

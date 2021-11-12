@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import GalleryItem from '../GalleryItem.components';
 import { withStyles } from '@material-ui/styles';
 import { useAuth } from '../../hooks/useAuth';
+import { fetcher } from '../../services/fetch-services';
 
 const styles = {
     gallery: {
@@ -18,11 +19,6 @@ const MyGallery = props => {
     const [ artList, setArtList ] = useState(null);
     const { authData } = useAuth();    
 
-
-    const fetcher = async(path) => {
-        let response = await fetch('http://127.0.0.1:8000/api' + path);
-        return await response.json()
-    }
 
     useEffect(() => {
         let isSubscribed = true;

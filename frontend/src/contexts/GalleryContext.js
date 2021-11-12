@@ -43,10 +43,10 @@ const GalleryProvider = props => {
       
   
     const saveNewArt = async(formData) => {
-        const {title, artist, likes, pixelart} = formData
+        const {title, artist, likes, cathegory, pixelart} = formData
         const newPixelart = JSON.stringify(pixelart)
   
-        const data = {title, artist, likes, pixelart: newPixelart}
+        const data = {title, artist, likes, cathegory, pixelart: newPixelart}
         const requestOptions = {
           method: "POST",
           headers: { "Content-Type": "application/json" },

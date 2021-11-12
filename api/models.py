@@ -19,12 +19,23 @@ class UserFollows(models.Model):
 
     def __str__(self):
        return str(self.user)
+
+class Cathegories(models.Model):
+    title = models.CharField(max_length=120)
+
+    class Meta:
+        verbose_name_plural = "Cathegories"
+
+    def __str__(self):
+        return str(self.title)
+
        
 class Art(models.Model):
     title = models.CharField(max_length=120)
     artist = models.ForeignKey(User, on_delete=models.CASCADE, related_name='artwork')
     pixelart = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    cathegory = models.ForeignKey(Cathegories, on_delete=models.CASCADE)
 
     def __str__(self):
        return str(self.title)

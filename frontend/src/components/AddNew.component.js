@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/styles';
 import { PIXEL_SQ, PIXEL_SIZE } from '../assets';
 import { withRouter } from 'react-router';
 import { GalleryContext } from '../contexts/GalleryContext';
+import Cathegories from './Cathegories';
 
 const styles = {
     grid: {
@@ -51,7 +52,10 @@ const AddNew = props => {
         title: '',
         artist: user.user.id,
         likes: 0,
-        pixelart: new Array(PIXEL_SQ * PIXEL_SQ).fill(true)
+        cathegory:'',
+        pixelart: new Array(PIXEL_SQ * PIXEL_SQ).fill(true),
+        
+
     }); //save form data
 
     const toggle = (index, value) => {
@@ -65,16 +69,18 @@ const AddNew = props => {
         setFormData({...formData, title: e.target.value})
     }
 
-    const handleCathegoryChange = e => {
-        console.log(e.target.value)
-        setFormData({...formData, cathegory: e.target.value})
+    const submitCathegories = (val) => {
+        setFormData({...formData, cathegory: parseInt(val)})
     }
 
 
     const handleSave = (e, formData) => {
         e.preventDefault();
         saveNewArt(formData);
-        props.history.push('/');
+        setTimeout(function(){
+            props.history.push('/');
+          }, 500)
+        
     }
 
     return (
@@ -82,6 +88,7 @@ const AddNew = props => {
             <h1>Create a new pixelart</h1>
             <div className={classes.column}>
                 <div className={classes.grid}>
+                    {formData && console.log(formData)}
                     {formData.pixelart.map((pixel, index) => <Pixel key={`pix-${index}`} index={index} on={pixel} handleClick={toggle}/>)}
                 </div>
                 <div>
@@ -91,7 +98,7 @@ const AddNew = props => {
                             <input
                                 id='art-title'
                                 type='text'
-                                autocomplete="off"
+                                autoComplete="off"
                                 placeholder='Name your pixelart!'
                                 value={formData.title}
                                 onChange={handleTitleChange}
@@ -99,13 +106,7 @@ const AddNew = props => {
                         </div>
                         <div>
                             <label>Cathegories:</label>
-                            <select id='cathegories' name='cathegories' onChange={handleCathegoryChange}>
-                                <option value='arcade'>Arcade</option>
-                                <option value='abstract'>Abstract</option>
-                                <option value='cute'>Cute</option>
-                                <option value='geometric'>Geometric</option>
-                                <option value='other'>Other</option>
-                            </select>
+                            <Cathegories submitCathegories={submitCathegories}/>
                         </div>
                         <button
                         onClick={e => handleSave(e, formData)}
