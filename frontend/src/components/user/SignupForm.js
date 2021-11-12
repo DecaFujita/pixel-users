@@ -10,7 +10,6 @@ const styles= {
     container: {
         color: 'grey',
         width: '100%',
-        height: '80vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -18,11 +17,10 @@ const styles= {
     },
     formContainer: {
         textAlign: 'center',
-        border: '2px solid rgba(0,0,0,.05)',
         padding: '40px 70px 0 70px'
     },
     title: {
-        marginBottom: '20px'
+        marginBottom: '10px'
     }, 
     form: {
         display: 'flex',
@@ -30,7 +28,7 @@ const styles= {
         justifyContent: 'center',
         alignItems: 'center',
         '& label': {
-            marginTop: '20px',
+            marginTop: '10px',
             marginBottom: '10px'
         },
         '& input': {
@@ -48,8 +46,8 @@ const styles= {
             borderBottom: '2px solid yellow'
         },
         '& button': {
-            marginTop: '25px',
-            marginBottom: '25px',
+            marginTop: '10px',
+            marginBottom: '10px',
             padding: '10px 20px',
             borderRadius: '0',
             background: 'rgba(0,0,0,.4)',
@@ -108,19 +106,19 @@ const SignupForm = props => {
                 <form onSubmit={handleSubmit} className={classes.form}>
                     <Fragment>
                     <label>What's your name? </label>
-                    <input label='username' onChange={e => setUsername(e.target.value)} />
+                    <input autoComplete="off" label='username' onChange={e => setUsername(e.target.value)} />
                     </Fragment>
                     <Fragment>
                     <label>Enter your email. </label>
-                    <input label='Email' type='email' onChange={e => setEmail(e.target.value)}/>
+                    <input autoComplete="off" label='Email' type='email' onChange={e => setEmail(e.target.value)}/>
                     </Fragment>
                     <Fragment>
                     <label>Create a password. </label>
-                    <input label='Password' type='password' onChange={e => setPassword(e.target.value)}/>
+                    <input autoComplete="off" label='Password' type='password' onChange={e => setPassword(e.target.value)}/>
                     </Fragment>
                     <Fragment>
                     <label>Repeat your password. </label>
-                    <input label='Password' type='password' onChange={e => setPassword2(e.target.value)}/>
+                    <input autoComplete="off" label='Password' type='password' onChange={e => setPassword2(e.target.value)}/>
                     </Fragment>
                     <button type='submit'>
                         Sign up

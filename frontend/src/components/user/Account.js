@@ -26,6 +26,14 @@ const styles = {
         height: '140px',
         borderRadius: '50%'
     },
+    block: {
+        display: 'flex',
+    },
+    blockEach: {
+        background: 'rgba(0, 0, 0, 0.1)',
+        margin: '10px',
+        padding: '20px'
+    },
     formContainer: {
         height: '400px',
         textAlign: 'center',
@@ -46,7 +54,7 @@ const styles = {
             background: 'rgba(0,0,0,.05)',
             padding: '10px 20px',
             border: 'none',
-            marginBottom: '20px',
+            marginBottom: '10px',
             transition: 'all .5s',
             borderBottom: '2px solid rgba(0,0,0,.05)'
         },
@@ -54,25 +62,55 @@ const styles = {
             outline: 'none',
             background: 'white',
             borderBottom: '2px solid yellow'
-        },
-        '& button': {
-            marginTop: '30px',
-            padding: '10px 20px',
-            borderRadius: '0',
-            background: 'rgba(0,0,0,.4)',
-            color: 'white',
-            fontSize: '14px',
-            border: 'none',
-            cursor: 'pointer',
-            transition: 'all .5s',
-        },
-        '& button:hover': {
+        }
+    },
+    btn: {
+        marginTop: '10px',
+        padding: '10px 20px',
+        borderRadius: '0',
+        background: 'rgba(0,0,0,.4)',
+        color: 'white',
+        fontSize: '14px',
+        border: 'none',
+        cursor: 'pointer',
+        transition: 'all .5s',
+        '&:hover': {
             background: 'rgba(0,0,0,.7)',
         },
-        '& button:focus': {
+        '&:focus': {
             outline: 'none',
             background: 'rgba(0,0,0,.5)',
             border: '2px solid yellow'
+        }
+    },
+    inputFile: {
+        width: '0.1px',
+        height: '0.1px',
+        overflow: 'hidden',
+        position: 'absolute',
+        zIndex: '-1',
+        fontSize: '1.25em',
+        fontWeight: '700',
+        display: 'inline-block',
+        '&:focus': {
+            background: 'red'
+        },
+        '&:hover': {
+            background: 'red'
+        }
+    },
+    inputLabel: {
+        fontSize: '1.25em',
+        fontWeight: '700',
+        color: 'white',
+        background: 'black',
+        display: 'inline-block',
+        background: 'red',
+        '&:focus': {
+            background: 'red'
+        },
+        '&:hover': {
+            background: 'red'
         }
     }
 }
@@ -128,30 +166,36 @@ const Account = props => {
                 <img src={genericAvatar} alt='generic user avatar' className={classes.avatar} />
             }
             <div className={classes.title}>Hello, {authData.user.username}!</div> 
-            <p>Manage your info here.</p>
+            <p>Here, you can manage your info.</p>
             <div>
-            <h1>Change your picture</h1>
-            <form onSubmit={uploadFile}>
-                <label>  
-                    <p>Upload your avatar</p>              
-                    <input type='file' onChange={e => setImage(e.target.files[0])}  autoComplete="off"/>
-                </label>
-                <button type='submit' variant='contained' color='primary'>Upload file</button>
-            </form>
-            <br/>
-            <h1>Change your password</h1>
-            <form onSubmit={submitChangePass}>
-                <input label='Old password' type='password' autoComplete="off"
-                    onChange={e => setOldPassword(e.target.value)}
-                />
-                <input label='New password' type='password' autoComplete="off"
-                    onChange={e => setPassword(e.target.value)}
-                />
-                <input label='Repeat password' type='password' autoComplete="off"
-                    onChange={e => setPassword2(e.target.value)}
-                />
-                <button type='submit' variant='contained' color='primary'>Change password</button>
-            </form>
+                <div className={classes.block}>
+                    <div className={classes.blockEach}>
+                        <h3>Change <br/>your picture</h3>
+                        <form onSubmit={uploadFile}>          
+                            <input className={classes.inputFile} type='file' name="file" id="file" onChange={e => setImage(e.target.files[0])}  autoComplete="off"/>
+                            <label clasName={classes.inputLabel} for='file'> Choose file </label>  
+                            <button  className={classes.btn}  type='submit'>Upload file</button>
+                        </form>
+                    </div>
+                    <div className={classes.blockEach}>
+                        <h3>Change your password</h3>
+                        <form onSubmit={submitChangePass} className={classes.form}>
+                            <label>Old password</label>
+                            <input label='Old password' type='password' autoComplete="off"
+                                onChange={e => setOldPassword(e.target.value)}
+                            />
+                            <label>New password</label>
+                            <input label='New password' type='password' autoComplete="off"
+                                onChange={e => setPassword(e.target.value)}
+                            />
+                            <label>Repeat new password</label>
+                            <input label='Repeat password' type='password' autoComplete="off"
+                                onChange={e => setPassword2(e.target.value)}
+                            />
+                            <button className={classes.btn} type='submit'>Change password</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     )

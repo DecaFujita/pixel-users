@@ -60,7 +60,7 @@ const Profile = props => {
     {user ?
     <div>
       <div className={classes.infoContainer}>
-      {user.profile.image
+      {user.profile
         ? <img src={user.profile.image} alt='user avatar' className={classes.avatar}/>
         : <img src={genericAvatar} alt='user avatar' className={classes.avatar}/>
       } 

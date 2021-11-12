@@ -1,9 +1,11 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, useState, useEffect } from 'react';
 import PixelArt from './PixelArt';
 import { withStyles } from '@material-ui/styles';
 import { Link } from 'react-router-dom';
 import { GalleryContext } from '../contexts/GalleryContext';
 import { PIXEL_SQ } from '../assets';
+import { fetcher } from '../services/fetch-services';
+import { useAuth } from '../hooks/useAuth';
 
 
 
@@ -40,7 +42,9 @@ const GalleryItem = props => {
     const { users } = useContext(GalleryContext);
     const { classes, item } = props;
     const pixelSquare = PIXEL_SQ * 12;
-    // const [ isLiked, setIsLiked ] = useState;
+    const [ likes, setLikes ] = useState(null);
+    const [ heart, setHeart ] = useState(false); 
+    const { authData } = useAuth();
 
     let artist = 'loading...'
     let numLikes = ''
@@ -48,6 +52,27 @@ const GalleryItem = props => {
         artist = users.find(user => user.id === item.artist);
     }
     
+    useEffect(() => {
+        let isSubscribed = true;
+        async function getLikes() {
+            try {
+                let likes = await fetcher('/likes')
+                let filteredLikes = await likes.find(res => res.art === item.id)
+                if (authData) {
+                    let userHeart = await filteredLikes.likes.includes(authData.user.id)
+                    console.log('HEART', userHeart)
+                    isSubscribed && setHeart(userHeart)
+                }
+                // let numLikes = filteredLikes.likes.length
+                isSubscribed && setLikes(filteredLikes)
+            } catch (error) {
+                console.log('error: ' + error);
+            }
+        }
+        getLikes()
+        return () => (isSubscribed = false)
+    }, [])
+
     return(
         <div className={classes.item}>
             <Fragment>
@@ -55,12 +80,14 @@ const GalleryItem = props => {
                 <div className={classes.caption}>
                     <Link to={`/profile/${artist.id}`} className={classes.userlink}>{artist.username}</Link>
                     <div  className={classes.likes}>
-                        { numLikes 
-                            ? <p>{item.art.liked_by.likes.length}</p>
+                        {likes 
+                            ? <p>{likes.likes.length}</p>
                             : <p>0</p>
                         }
-                        {/* <i className="fas fa-heart"/> */}
-                        <i className="far fa-heart"/>
+                        {heart
+                            ? <i className="fas fa-heart"/>
+                            : <i className="far fa-heart"/>
+                        }
                     </div>
                 </div>
             </Fragment>

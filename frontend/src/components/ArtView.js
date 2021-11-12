@@ -4,6 +4,7 @@ import PixelArt from './PixelArt';
 import { useParams, Link } from 'react-router-dom';
 import { PIXEL_SQ } from '../assets';
 import Loading from './Loading';
+import { fetcher } from '../services/fetch-services';
 
 const styles = {
     container: {
@@ -85,10 +86,6 @@ const ArtView = props => {
         time = new Date(art.timestamp).toLocaleString("en-US")
     }
 
-    const fetcher = async(path) => {
-        let response = await fetch('http://127.0.0.1:8000/api' + path);
-        return await response.json()
-    }
 
     useEffect(() => {
         let isSubscribed = true;
@@ -135,6 +132,16 @@ const ArtView = props => {
         let newLikes = [];
         if (!likes) {
             newLikes.push(user.user.id)
+            await fetch(`http://127.0.0.1:8000/api/likes/`, {
+            method: 'POST',
+            body: JSON.stringify({ 
+                art: id,
+                likes: newLikes
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        })
         } else {
             if (like_action === 'unlikeIt') {
                 newLikes = likes.likes.filter(el => el !== user.user.id)
@@ -142,8 +149,7 @@ const ArtView = props => {
                 newLikes = likes.likes.map(el => el)
                 newLikes.push(user.user.id)
             } 
-        }
-        await fetch(`http://127.0.0.1:8000/api/likes/${likes.id}/`, {
+            await fetch(`http://127.0.0.1:8000/api/likes/${likes.id}/`, {
             method: 'PATCH',
             body: JSON.stringify({ 
                 likes: newLikes
@@ -152,6 +158,8 @@ const ArtView = props => {
                 'Content-type': 'application/json; charset=UTF-8'
             }
         })
+        }
+        
         setLoad(!load);
     }
     
@@ -181,8 +189,6 @@ const ArtView = props => {
                     :
                         <i className="far fa-heart"/>
                     }
-                   
-                
                     {likes 
                         ? <p style={{marginLeft:'5px'}}>{likes.likes.length}</p>
                         : <p style={{marginLeft:'5px'}}>0</p>

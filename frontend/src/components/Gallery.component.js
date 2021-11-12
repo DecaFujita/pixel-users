@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import GalleryItem from './GalleryItem.components';
 import { withStyles } from '@material-ui/styles';
 import { GalleryContext } from '../contexts/GalleryContext';
 import { useAuth } from '../hooks/useAuth';
 import Cathegories from './Cathegories';
+import { fetcher } from '../services/fetch-services';
 
 
 const styles = {
@@ -32,15 +33,37 @@ const styles = {
 
 const Gallery = props => {
     const { artList } = useContext(GalleryContext);
-    const [ filtered, setFiltered ] = useState(artList);
+    const [ filtered, setFiltered ] = useState(null);
+    const [ art, setArt ] = useState(null)
     const { classes } = props;
     const { authData } = useAuth();
+    const [ load, setLoad ] = useState(null);
+
 
     const submitCathegories = (val) => {
-        console.log(val)
+        setFiltered(parseInt(val, 10))
+        setLoad(!load)
     }
 
+    useEffect(() => {
+        let isSubscribed = true;
+        async function getData() {
+            try {
+                let art = await fetcher('/art');
+                if (!filtered) {
+                    isSubscribed && setArt(art)
+                } else {
+                    let filteredArt = art.filter(el => el.cathegory === filtered)
+                    isSubscribed && setArt(filteredArt)
+                }
+            } catch (error) {
+                console.log('error: ' + error);
+            }
+        };
+      getData();
 
+      return () => (isSubscribed = false)
+    }, [load])
 
     return(
         <div className={classes.container}>
@@ -50,10 +73,9 @@ const Gallery = props => {
             </div>
             <div>
                 <div className={classes.gallery}>
-                    {filtered && filtered.map(art => 
-                        <GalleryItem key={art.id} item={art}/>
+                    {art && art.map(a => 
+                        <GalleryItem key={a.id} item={a}/>
                     )}
-                    {/* {filtered && console.log(filtered)} */}
                 </div>
             </div>
         </div>

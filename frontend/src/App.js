@@ -73,10 +73,9 @@ const App = () => {
                 path='/mygallery'
                 component={MyGallery}
               />
-              <PrivateRoute
-                authed={user}
-                path='/following'
-                component={Following}
+              <Route
+                path='/following/:id'
+                render={() => <Following user={user}/>}
               />
               <Route exact path='/profile/:id'>
                   <Profile />
