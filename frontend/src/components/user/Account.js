@@ -103,9 +103,7 @@ const styles = {
         fontSize: '1.25em',
         fontWeight: '700',
         color: 'white',
-        background: 'black',
         display: 'inline-block',
-        background: 'red',
         '&:focus': {
             background: 'red'
         },

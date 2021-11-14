@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import GalleryItem from './GalleryItem.components';
 import { withStyles } from '@material-ui/styles';
-import { GalleryContext } from '../contexts/GalleryContext';
 import { useAuth } from '../hooks/useAuth';
 import Cathegories from './Cathegories';
 import { fetcher } from '../services/fetch-services';
@@ -32,7 +31,6 @@ const styles = {
 }
 
 const Gallery = props => {
-    const { artList } = useContext(GalleryContext);
     const [ filtered, setFiltered ] = useState(null);
     const [ art, setArt ] = useState(null)
     const { classes } = props;

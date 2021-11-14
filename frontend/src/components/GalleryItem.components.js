@@ -47,7 +47,6 @@ const GalleryItem = props => {
     const { authData } = useAuth();
 
     let artist = 'loading...'
-    let numLikes = ''
     if (users) {
         artist = users.find(user => user.id === item.artist);
     }
@@ -60,10 +59,8 @@ const GalleryItem = props => {
                 let filteredLikes = await likes.find(res => res.art === item.id)
                 if (authData) {
                     let userHeart = await filteredLikes.likes.includes(authData.user.id)
-                    console.log('HEART', userHeart)
                     isSubscribed && setHeart(userHeart)
                 }
-                // let numLikes = filteredLikes.likes.length
                 isSubscribed && setLikes(filteredLikes)
             } catch (error) {
                 console.log('error: ' + error);

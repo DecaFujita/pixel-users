@@ -18,6 +18,7 @@ import ArtView from './components/ArtView';
 import MyGallery from './components/user/MyGallery';
 import NewestGallery from './components/NewestGallery.component';
 import Artists from './components/Artists';
+import MyCollection from './components/user/MyCollection'
 
 const App = () => {
   
@@ -63,6 +64,11 @@ const App = () => {
                 authed={user}
                 path='/account'
                 component={Account}
+              />
+              <PrivateRoute
+                authed={user}
+                path='/mycollection'
+                component={MyCollection}
               />
               {/* <Route
                 path='/mygallery'

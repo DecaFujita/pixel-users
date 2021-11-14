@@ -5,6 +5,7 @@ import { useParams, Link } from 'react-router-dom';
 import { PIXEL_SQ } from '../assets';
 import Loading from './Loading';
 import { fetcher } from '../services/fetch-services';
+import CollectionButtons from '../components/CollectionButtons';
 
 const styles = {
     container: {
@@ -46,20 +47,6 @@ const styles = {
         border: 'none',
         width: '180px',
         height: '40px',
-    },
-    btnFill: {
-        marginTop: '70px',
-        border: 'none',
-        width: '180px',
-        height: '40px',
-        background: 'yellow',
-    },
-    btnStr: {
-        marginTop: '70px',
-        width: '180px',
-        height: '40px',
-        background: 'white',
-        border: '2px solid gold'
     },
     signUp: {
         marginTop: '20px !important',
@@ -197,16 +184,7 @@ const ArtView = props => {
                    
                     </div>
                     {user ?
-                        <div className={classes.btns}>
-                            {false ? 
-                                <Fragment>
-                                    <button className={classes.btnFill}>Cutared</button>
-                                    <button className={classes.btn}>Remove from collection</button>
-                                </Fragment>
-                            :
-                                <button className={classes.btnStr}>Save to collection</button>
-                            }
-                        </div>
+                        <CollectionButtons artId={id}/>
                     :
                         <div className={classes.signUp}>Not a member yet? Sign up <Link to={'/signup'}>here.</Link></div>
                     }

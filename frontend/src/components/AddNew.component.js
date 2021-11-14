@@ -70,7 +70,7 @@ const AddNew = props => {
     }
 
     const submitCathegories = (val) => {
-        setFormData({...formData, cathegory: parseInt(val)})
+        setFormData({...formData, cathegory: parseInt(val, 10)})
     }
 
 

@@ -58,6 +58,7 @@ const DropdownMenu = props => {
             <Link to={'/account'} className={classes.dropdownItem}>Account</Link>
             <Link to={'/following'} className={classes.dropdownItem}>Following</Link>
             <Link to={'/mygallery'} className={classes.dropdownItem}>My gallery</Link>
+            <Link to={'/mycollection'} className={classes.dropdownItem}>My collection</Link>
             <button onClick={() => logout()}>Log out</button>
         </div>
     )
