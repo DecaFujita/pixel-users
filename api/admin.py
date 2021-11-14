@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Art, ArtLikes, Cathegories , UserProfile, UserFollows
+from .models import Art, ArtLikes, Cathegories, Collection, UserProfile, UserFollows
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
@@ -23,7 +23,9 @@ class ArtAdmin(admin.ModelAdmin):
 class CathegoriesAdmin(admin.ModelAdmin):
     list_display = ('title',)
 
-
+@admin.register(Collection)
+class CollectionAdmin(admin.ModelAdmin):
+    list_display = ('art', )
 
 @admin.register(ArtLikes)
 class ArtLikesAdmin(admin.ModelAdmin):
@@ -34,8 +36,11 @@ class ArtLikesAdmin(admin.ModelAdmin):
 
     verbose_name_plural = "likes"
 
-class ArtCommentsAdmin(admin.ModelAdmin):
-    list_display = ('art', 'user', 'comment')
 
-    verbose_name_plural = "comments"
+# @admin.register(ArtComments)
+# class ArtCommentsAdmin(admin.ModelAdmin):
+#     list_display = ('art', 'user', 'comment')
 
+#     verbose_name_plural = "comments"
+
+# 

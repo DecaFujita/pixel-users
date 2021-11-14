@@ -5,6 +5,7 @@ router = routers.DefaultRouter()
 
 router.register(r'art', views.ArtViewset)
 router.register(r'cathegories', views.CathegoriesViewset)
+router.register(r'collection', views.CollectionViewset)
 router.register(r'comments', views.ArtCommentsViewset)
 router.register(r'following', views.UserFollowsViewset)
 router.register(r'likes', views.ArtLikesViewset)

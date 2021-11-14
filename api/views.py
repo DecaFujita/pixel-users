@@ -7,8 +7,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from api.serializers import UserSerializer, ChangePasswordSerializer
 from rest_framework import viewsets
-from .models import Art, ArtLikes, Cathegories, Comments, UserProfile, UserFollows
-from api.serializers import ArtSerializer, ArtLikesSerializer, CathegoriesSerializer, CommentsSerializer,UserProfileSerializer, UserFollowsSerializer
+from .models import Art, ArtLikes, Cathegories, Collection, Comments, UserProfile, UserFollows
+from api.serializers import ArtSerializer, ArtLikesSerializer, CathegoriesSerializer, CollectionSerializer, CommentsSerializer,UserProfileSerializer, UserFollowsSerializer
 from rest_framework.authentication import TokenAuthentication
 # from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 
@@ -57,6 +57,10 @@ class ArtCommentsViewset(viewsets.ModelViewSet):
 class CathegoriesViewset(viewsets.ModelViewSet):
     queryset = Cathegories.objects.all()
     serializer_class = CathegoriesSerializer
+
+class CollectionViewset(viewsets.ModelViewSet):
+    queryset = Collection.objects.all()
+    serializer_class = CollectionSerializer
 
 class CustomObtainAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):

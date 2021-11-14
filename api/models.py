@@ -60,3 +60,10 @@ class Comments(models.Model):
 
     def __str__(self):
        return str(self.art)
+
+class Collection(models.Model):
+    art = models.OneToOneField(Art, on_delete=models.CASCADE, related_name='collected')
+    users = models.ManyToManyField(User, blank=True)
+
+    def __str__(self):
+       return str(self.art)

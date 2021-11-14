@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from .models import Art, ArtLikes,Cathegories, Comments, UserProfile, UserFollows
+from .models import Art, ArtLikes, Cathegories, Collection, Comments, UserProfile, UserFollows
 
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
@@ -32,10 +32,15 @@ class CathegoriesSerializer(serializers.ModelSerializer):
         model = Cathegories
         fields = ('id', 'title',)
 
+class CollectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Collection
+        fields = ('id', 'users','art')
+
 class ArtSerializer(serializers.ModelSerializer):
     class Meta:
         model = Art
-        fields = ('id', 'title','artist', 'cathegory', 'pixelart','timestamp',)
+        fields = ('id', 'title','artist', 'cathegory', 'pixelart', 'timestamp',)
 
 class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer()
