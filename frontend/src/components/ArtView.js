@@ -14,6 +14,9 @@ const styles = {
         display: 'flex'
     },
     textContent: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
         marginLeft: '50px',
         '& h2': {
             marginBottom: '5px'
@@ -146,7 +149,6 @@ const ArtView = props => {
             }
         })
         }
-        
         setLoad(!load);
     }
     
