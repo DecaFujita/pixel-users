@@ -36,6 +36,7 @@ const CollectionButtons = props => {
     const { authData } = useAuth();
     const { classes, artId } = props;
     const [ isCollected, setIsCollected ] = useState(false);
+    const [ load, setLoad ] = useState(false);
     
 
     useEffect(() => {
@@ -54,14 +55,45 @@ const CollectionButtons = props => {
       getData();
 
       return () => (isSubscribed = false)
-    }, [])
+    }, [load])
    
-    const removeFromCollection = () => {
-        console.log('Click')
+    const removeFromCollection = async() => {
+
+        REFAZER ESTE AQUI!!!
+        
+        let newCollection = [];
+        if (!isCollected) {
+            newCollection.push(authData.user.id)
+            await fetch(`http://127.0.0.1:8000/api/collection/${collection.id}`, {
+                method: 'PATCH',
+                body: JSON.stringify({
+                    art: artId,
+                    likes: newCollection
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                }
+            })
+        }
     }
 
-    const addToCollection = () => {
-        console.log('Click-Click')
+    const addToCollection = async() => {
+        let newCollection = [];
+        if (!isCollected) {
+            newCollection.push(authData.user.id)
+            await fetch('http://127.0.0.1:8000/api/collection/', {
+                method: 'FETCH',
+                body: JSON.stringify({
+                    art: artId,
+                    likes: newCollection
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                }
+            })
+        } else {
+            newCollection = collection.map(el => CONTINUAR AQUI!!!!!)
+        }
     }
     
     return (
@@ -75,7 +107,6 @@ const CollectionButtons = props => {
                 <button className={classes.btnStr} onClick={addToCollection}>Save to collection</button>
             }
         </div>
-        
     )
 }
 
