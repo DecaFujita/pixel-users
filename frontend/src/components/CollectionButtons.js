@@ -111,7 +111,7 @@ const CollectionButtons = props => {
             await fetch(`http://127.0.0.1:8000/api/collection/${collection.id}/`, {
                 method: 'PATCH',
                 body: JSON.stringify({
-                    users: [1,2]
+                    users: newCollection
                 }),
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8'
