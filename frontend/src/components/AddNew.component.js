@@ -5,8 +5,15 @@ import { PIXEL_SQ, PIXEL_SIZE } from '../assets';
 import { withRouter } from 'react-router';
 import { GalleryContext } from '../contexts/GalleryContext';
 import Cathegories from './Cathegories';
+import { useParams } from 'react-router-dom';
 
 const styles = {
+    container: {
+        marginTop: '10px',
+    },
+    title: {
+      marginBottom: '10px'  
+    },
     grid: {
         maxHeigth: PIXEL_SQ * PIXEL_SIZE + PIXEL_SIZE + 15,
         maxWidth: PIXEL_SQ * PIXEL_SIZE + PIXEL_SIZE + 15,
@@ -34,29 +41,37 @@ const styles = {
             borderBottom: '1px solid grey'
         },
         '& button': {
-            borderRadius: '50px',
             border: 'none',
-            backgroundColor: 'grey',
-            marginRight: '5px',
+            backgroundColor: 'silver',
+            marginRight: '10px',
             padding: '10px 20px',
-            color: 'white'
+            color: 'black'
         }
+    },
+    cath: {
+        display: 'flex'
+    },
+    save: {
+        background: 'gold !important',
+        color: 'black !important'
     }
 }
 
 const AddNew = props => {
-    // const pixelGrid = new Array(PIXEL_SQ * PIXEL_SQ).fill(true);
+
     const { saveNewArt } = useContext(GalleryContext);
     const { classes, user } = props;
+    const { id } = useParams();
     const [ formData, setFormData ] = useState({
         title: '',
         artist: user.user.id,
         likes: 0,
         cathegory:'',
         pixelart: new Array(PIXEL_SQ * PIXEL_SQ).fill(true),
-        
-
     }); //save form data
+
+    
+    
 
     const toggle = (index, value) => {
         let newArt = formData.pixelart.map(a => a);
@@ -84,11 +99,14 @@ const AddNew = props => {
     }
 
     return (
-        <div>
-            <h1>Create a new pixelart</h1>
+        <div className={classes.container}>
+            {id
+            ? <h2 className={classes.title}>Edit your pixelart</h2>
+            : <h2 className={classes.title}>Create a new pixelart</h2>
+            }
+            
             <div className={classes.column}>
                 <div className={classes.grid}>
-                    {formData && console.log(formData)}
                     {formData.pixelart.map((pixel, index) => <Pixel key={`pix-${index}`} index={index} on={pixel} handleClick={toggle}/>)}
                 </div>
                 <div>
@@ -104,11 +122,11 @@ const AddNew = props => {
                                 onChange={handleTitleChange}
                             />
                         </div>
-                        <div>
+                        <div className={classes.cath}>
                             <label>Cathegories:</label>
                             <Cathegories submitCathegories={submitCathegories}/>
                         </div>
-                        <button
+                        <button className={classes.save}
                         onClick={e => handleSave(e, formData)}
                         >Save</button>
                         <button>Cancel</button>

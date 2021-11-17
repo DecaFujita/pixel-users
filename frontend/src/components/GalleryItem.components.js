@@ -26,6 +26,7 @@ const styles = {
     userlink: {
         fontWeight: 'bold',
         textDecoration: 'none',
+        marginLeft: '5px'
 
     },
     likes: {
@@ -75,7 +76,10 @@ const GalleryItem = props => {
             <Fragment>
                 <PixelArt pixelart={item.pixelart} artId={item.id} pixelSquare={pixelSquare}/>
                 <div className={classes.caption}>
+                    <div style={{display: 'flex'}}>
+                    <p style={{color: 'grey'}}>{item.title} | </p>
                     <Link to={`/profile/${artist.id}`} className={classes.userlink}>{artist.username}</Link>
+                    </div>
                     <div  className={classes.likes}>
                         {likes 
                             ? <p>{likes.likes.length}</p>

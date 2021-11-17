@@ -6,6 +6,7 @@ import { PIXEL_SQ } from '../assets';
 import Loading from './Loading';
 import { fetcher } from '../services/fetch-services';
 import CollectionButtons from '../components/CollectionButtons';
+import EditButtons from './EditButtons';
 
 const styles = {
     container: {
@@ -17,6 +18,7 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
+        justifyContent: 'space-between',
         marginLeft: '50px',
         '& h2': {
             marginBottom: '5px'
@@ -58,6 +60,10 @@ const styles = {
             textDecoration: 'none',
             fontWeight: 'bold'
         }
+    },
+    edit: {
+        marginTop: '20px',
+
     }
 }
 
@@ -159,38 +165,46 @@ const ArtView = props => {
             <div className={classes.container}>
                 <PixelArt pixelart={art.pixelart} pixelSquare={pixelSquare} />
                 <div className={classes.textContent}>
-                    <h2>{art.title}</h2>
-                    <div className={classes.text}>
-                        <p>by</p>
-                       {artist &&
-                        <Link to={`/profile/${artist.id}`} className={classes.artist}>{artist.username}</Link>
-                       }
-                        <p className={classes.sm}>on {time}</p>
+                    <div>
+                        <h2>{art.title}</h2>
+                        <div className={classes.text}>
+                            <p>by</p>
+                        {artist &&
+                            <Link to={`/profile/${artist.id}`} className={classes.artist}>{artist.username}</Link>
+                        }
+                            <p className={classes.sm}>on {time}</p>
+                        </div>
+                        <div className={classes.text} style={{marginTop:'15px'}}>
+                        {user ? 
+                            <Fragment>
+                                {heart
+                                    ? <i className="fas fa-heart" onClick={() => handleLike('unlikeIt')}/>
+                                    : <i className="far fa-heart" onClick={() => handleLike('likeIt')}/>
+                                }
+                            </Fragment>
+                        :
+                            <i className="far fa-heart"/>
+                        }
+                        {likes 
+                            ? <p style={{marginLeft:'5px'}}>{likes.likes.length}</p>
+                            : <p style={{marginLeft:'5px'}}>0</p>
+                        }
+                        </div>
                     </div>
-                    <div className={classes.text} style={{marginTop:'15px'}}>
-                    {user ? 
-                        <Fragment>
-                            {heart
-                                ? <i className="fas fa-heart" onClick={() => handleLike('unlikeIt')}/>
-                                : <i className="far fa-heart" onClick={() => handleLike('likeIt')}/>
-                            }
-                        </Fragment>
-                    :
-                        <i className="far fa-heart"/>
-                    }
-                    {likes 
-                        ? <p style={{marginLeft:'5px'}}>{likes.likes.length}</p>
-                        : <p style={{marginLeft:'5px'}}>0</p>
-                    }
-                    
-                   
+                    <div>
+                        {user ?
+                            <CollectionButtons artId={id}/>
+                        :
+                            <div className={classes.signUp}>Not a member yet? Sign up <Link to={'/signup'}>here.</Link></div>
+                        }
+
+                        {user.user.id === art.artist &&
+                            <EditButtons art={art} load={load} setLoad={setLoad}/>
+                        }
+                       
                     </div>
-                    {user ?
-                        <CollectionButtons artId={id}/>
-                    :
-                        <div className={classes.signUp}>Not a member yet? Sign up <Link to={'/signup'}>here.</Link></div>
-                    }
                 </div>
+                
             </div>  
             <div>
                 <h3>Comments</h3>

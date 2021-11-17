@@ -47,6 +47,11 @@ const App = () => {
               />
               <Route 
                 exact
+                path='/edit/:id'
+                render={() => <AddNew user={user}/>}
+              />
+              <Route 
+                exact
                 path='/artists'
                 render={() => <Artists />}
               />
@@ -90,6 +95,7 @@ const App = () => {
               <Route exact path='/art/:id'>
                   <ArtView user={user}/>
               </Route>
+              
               <Route component={NotFound}/>
             </Switch>
           </div>
