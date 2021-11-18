@@ -123,11 +123,11 @@ const ArtView = props => {
       return () => (isSubscribed = false)
     }, [])
 
-    const deleteArt = async(id) => {
+    const deleteArt = async (id) => {
         await fetch(`http://127.0.0.1:8000/api/art/${id}`, {
             method: 'DELETE', 
         });
-        history.push('/');
+        history.push('/')
 
 
     }

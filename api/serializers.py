@@ -7,15 +7,16 @@ class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
 
-class UserProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserProfile
-        fields = ('id', 'image',)
-
 class UserFollowsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFollows
-        fields = ('user', 'following',)
+        fields = ('id', 'user', 'following',)
+        
+class UserProfileSerializer(serializers.ModelSerializer):
+    # followed_by = UserFollowsSerializer()
+    class Meta:
+        model = UserProfile
+        fields = ('id', 'image',)
 
 class ArtLikesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,7 +45,6 @@ class ArtSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer()
-
     class Meta:
         model = User
         fields = ('id', 'username','email', 'password', 'profile')
