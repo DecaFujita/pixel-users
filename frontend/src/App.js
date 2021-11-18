@@ -75,10 +75,6 @@ const App = () => {
                 path='/mycollection'
                 component={MyCollection}
               />
-              {/* <Route
-                path='/mygallery'
-                render={() => <MyGallery user={user}/>}
-              /> */}
               <PrivateRoute
                 authed={user}
                 path='/mygallery'
