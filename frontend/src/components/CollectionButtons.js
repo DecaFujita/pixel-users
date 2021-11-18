@@ -42,9 +42,36 @@ const styles = {
         '& p': {
             transform: 'translateY(-2px)'
         }
-    }
+    },
+    pop: {
+        animation: '$pop .5s linear'
+    },
+    popout: {
+        animation: '$popout .5s linear'
+    },
 
 
+    '@keyframes pop': {
+        '0%': { 
+            transform: 'translateY(10px)',
+            opacity: 0
+        },
+        '30%': { 
+            transform: 'translateY(-5px)',
+            opacity: 1
+        },
+        '100%': { 
+            transform: 'translateY(0)'
+        }
+    },
+    '@keyframes popout': {
+        '0%': { 
+            opacity: 1
+        },
+        '100%': { 
+            opacity: 0
+        }
+    },
 }
 
 const CollectionButtons = props => {
@@ -53,6 +80,7 @@ const CollectionButtons = props => {
     const [ isCollected, setIsCollected ] = useState(false);
     const [ collection, setCollection ] = useState(null);
     const [ load, setLoad ] = useState(false);
+    const [ animIn, setAnimIn ] = useState(false);
     
 
     useEffect(() => {
@@ -68,7 +96,6 @@ const CollectionButtons = props => {
             } catch (error) {
                 console.log('error: ' + error);
             }
-
         };
       getData();
 
@@ -78,7 +105,6 @@ const CollectionButtons = props => {
     const removeFromCollection = async() => {
         let newUsers = await collection.users.map(el => el);
         let newUserArr =  await newUsers.filter(el => el !== authData.user.id)
-        console.log(newUserArr)
         await fetch(`http://127.0.0.1:8000/api/collection/${collection.id}/`, {
             method: 'PATCH',
             body: JSON.stringify({
@@ -88,7 +114,9 @@ const CollectionButtons = props => {
                 'Content-type': 'application/json; charset=UTF-8'
             }
         })
+        setAnimIn(false);
         setLoad(!load);
+        
     }
 
     const addToCollection = async() => {
@@ -118,14 +146,16 @@ const CollectionButtons = props => {
                 }
             })
         }
+        setAnimIn(true);
         setLoad(!load);
+        
     }
     
     return (
         <div className={classes.btns}>
             {isCollected ?
                 <Fragment>
-                    <div className={`${classes.bookmark}`}>
+                    <div className={animIn ? `${classes.bookmark} ${classes.pop}`: `${classes.bookmark} ${classes.popout}` }>
                         <i className="fas fa-bookmark" />
                         <p> Collected!</p>
                     </div>

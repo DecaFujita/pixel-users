@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Pixel from './Pixel';
 import { withStyles } from '@material-ui/styles';
 import { PIXEL_SQ, PIXEL_SIZE } from '../assets';
@@ -6,6 +6,7 @@ import { withRouter } from 'react-router';
 import { GalleryContext } from '../contexts/GalleryContext';
 import Cathegories from './Cathegories';
 import { useParams } from 'react-router-dom';
+import { fetcher } from '../services/fetch-services';
 
 const styles = {
     container: {
@@ -66,12 +67,10 @@ const AddNew = props => {
         title: '',
         artist: user.user.id,
         likes: 0,
-        cathegory:'',
+        cathegory: '',
         pixelart: new Array(PIXEL_SQ * PIXEL_SQ).fill(true),
     }); //save form data
 
-    
-    
 
     const toggle = (index, value) => {
         let newArt = formData.pixelart.map(a => a);
@@ -80,7 +79,6 @@ const AddNew = props => {
     }
 
     const handleTitleChange = e => {
-        console.log(e.target.value)
         setFormData({...formData, title: e.target.value})
     }
 
@@ -95,16 +93,53 @@ const AddNew = props => {
         setTimeout(function(){
             props.history.push('/');
           }, 500)
-        
     }
+
+    const handleUpdate = async(e) => {
+        e.preventDefault();
+        await fetch(`http://127.0.0.1:8000/api/art/${id}/`, {
+            method: 'PATCH',
+            body: JSON.stringify({ 
+                title: formData.title,
+                cathegory: formData.cathegory,
+                pixelart: formData.pixelart
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        })
+        // updateArt(formData);
+        // setTimeout(function(){
+        //     props.history.push('/');
+        // }, 500)
+    }
+    
+
+
+
+    useEffect(() => {
+        let isSubscribed = true;
+        async function fetchArt() {
+            try {
+                let art = await fetcher(`/art/${id}`)
+                setFormData({...formData, title: art.title, cathegory: art.cathegory, pixelart: JSON.parse(art.pixelart)})
+            } catch (error) {
+                console.log('error: ' + error);
+            }
+        }
+        fetchArt()
+        return () => (isSubscribed = false)
+    }, [])
+    
 
     return (
         <div className={classes.container}>
-            {id
+            
+            {id 
             ? <h2 className={classes.title}>Edit your pixelart</h2>
             : <h2 className={classes.title}>Create a new pixelart</h2>
             }
-            
+
             <div className={classes.column}>
                 <div className={classes.grid}>
                     {formData.pixelart.map((pixel, index) => <Pixel key={`pix-${index}`} index={index} on={pixel} handleClick={toggle}/>)}
@@ -120,15 +155,25 @@ const AddNew = props => {
                                 placeholder='Name your pixelart!'
                                 value={formData.title}
                                 onChange={handleTitleChange}
+                                required
                             />
                         </div>
                         <div className={classes.cath}>
                             <label>Cathegories:</label>
-                            <Cathegories submitCathegories={submitCathegories}/>
+                            <Cathegories submitCathegories={e => submitCathegories(e, formData)}/>
                         </div>
-                        <button className={classes.save}
+                        {id ?
+                        <button
+                            className={classes.save}
+                            onClick={e => handleUpdate(e, formData)}
+                        >Update</button>
+                        : <button
+                        className={classes.save}
                         onClick={e => handleSave(e, formData)}
-                        >Save</button>
+                    >Save</button>
+                        
+                        }
+                        
                         <button>Cancel</button>
                     </form>
                 </div>

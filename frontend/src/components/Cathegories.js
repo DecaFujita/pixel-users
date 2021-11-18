@@ -40,8 +40,8 @@ const Cathegories = props => {
 
     return (
         <div>
-            <select className={classes.select} id='cathegories' name='cathegories' onChange={handleCathegoryChange} defaultValue={null}>
-                <option disabled selected value>Select a cathegory</option>
+            <select className={classes.select} id='cathegories' name='cathegories' onChange={handleCathegoryChange}>
+                <option disabled selected></option>
                 {cathegories && cathegories.map(cathegory => 
                     <option key={cathegory.title} value={cathegory.id}>{cathegory.title}</option>
                 )}

@@ -66,6 +66,7 @@ const Gallery = props => {
     return(
         <div className={classes.container}>
             <div className={classes.formCathegories}>
+                <label>Cathegories:</label>
                 <Cathegories submitCathegories={submitCathegories}/>
                 {authData && <Link className={classes.add} to='/add'>+ new</Link>}
             </div>
