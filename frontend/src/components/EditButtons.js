@@ -1,19 +1,18 @@
 import { withStyles } from '@material-ui/styles';
-import React, { useEffect, useState, Fragment } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import { fetcher } from '../services/fetch-services';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 const styles = {
     container: {
         display: 'flex',
     },
-    edit: {
+    btn: {
         marginTop: '50px',
         display: 'flex',
         marginRight: '40px',
-        color: 'grey',
         cursor: 'pointer',
+        textDecoration: 'none',
         '& i': {
             color: 'grey',
             marginRight: '5px',
@@ -24,27 +23,25 @@ const styles = {
 }
 
 const EditButtons = props => {
-    const { classes, art, load, setLoad } = props;
+    const { classes, art, deleteArt } = props;
 
-    const handleEdit = () => {
-
-        // setLoad(!load)
+    const handleDelete = (id) => {
+        deleteArt(id)
+        
     }
-
 
     return (
         <div className={classes.container}>
 
-            <div className={classes.edit} onClick={handleEdit}>
+            <Link to={`/edit/${art.id}`} className={classes.btn} >
                 <i className="fas fa-eraser"/>
-                {art && console.log(art)}
                 Edit
+            </Link>
+            <div className={classes.btn} onClick={() => handleDelete(art.id)}>
+                <i className="far fa-trash-alt"/>
+                Delete
             </div>
-            <div className={classes.edit} onClick={handleEdit}>
-            <i className="far fa-trash-alt"/>
-            Delete
         </div>
-    </div>
     )
 }
 

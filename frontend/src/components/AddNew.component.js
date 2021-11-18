@@ -86,7 +86,6 @@ const AddNew = props => {
         setFormData({...formData, cathegory: parseInt(val, 10)})
     }
 
-
     const handleSave = (e, formData) => {
         e.preventDefault();
         saveNewArt(formData);
@@ -96,13 +95,14 @@ const AddNew = props => {
     }
 
     const handleUpdate = async(e) => {
+        console.log(formData.pixelart)
         e.preventDefault();
         await fetch(`http://127.0.0.1:8000/api/art/${id}/`, {
             method: 'PATCH',
             body: JSON.stringify({ 
                 title: formData.title,
                 cathegory: formData.cathegory,
-                pixelart: formData.pixelart
+                pixelart: JSON.stringify(formData.pixelart)
             }),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8'
@@ -118,7 +118,7 @@ const AddNew = props => {
 
 
     useEffect(() => {
-        let isSubscribed = true;
+        let isOn = true;
         async function fetchArt() {
             try {
                 let art = await fetcher(`/art/${id}`)
@@ -128,7 +128,7 @@ const AddNew = props => {
             }
         }
         fetchArt()
-        return () => (isSubscribed = false)
+        return () => (isOn = false)
     }, [])
     
 

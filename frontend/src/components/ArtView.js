@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { withStyles } from '@material-ui/styles';
 import PixelArt from './PixelArt';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useHistory } from 'react-router-dom';
 import { PIXEL_SQ } from '../assets';
 import Loading from './Loading';
 import { fetcher } from '../services/fetch-services';
@@ -63,7 +63,6 @@ const styles = {
     },
     edit: {
         marginTop: '20px',
-
     }
 }
 
@@ -76,12 +75,12 @@ const ArtView = props => {
     const [ load, setLoad] = useState(false);
     const pixelSquare = PIXEL_SQ * 20;
     const { classes, user } = props;
+    const history = useHistory();
     let time;
 
     if (art) {
         time = new Date(art.timestamp).toLocaleString("en-US")
     }
-
 
     useEffect(() => {
         let isSubscribed = true;
@@ -123,6 +122,15 @@ const ArtView = props => {
 
       return () => (isSubscribed = false)
     }, [])
+
+    const deleteArt = async(id) => {
+        await fetch(`http://127.0.0.1:8000/api/art/${id}`, {
+            method: 'DELETE', 
+        });
+        history.push('/');
+
+
+    }
 
     const handleLike = async(like_action) => {
         let newLikes = [];
@@ -199,7 +207,7 @@ const ArtView = props => {
                         }
 
                         {user.user.id === art.artist &&
-                            <EditButtons art={art} load={load} setLoad={setLoad}/>
+                            <EditButtons art={art} load={load} setLoad={setLoad} deleteArt={deleteArt}/>
                         }
                        
                     </div>
