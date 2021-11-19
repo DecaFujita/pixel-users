@@ -7,6 +7,7 @@ import { GalleryContext } from '../contexts/GalleryContext';
 import Cathegories from './Cathegories';
 import { useParams } from 'react-router-dom';
 import { fetcher } from '../services/fetch-services';
+import { useAuth } from '../hooks/useAuth';
 
 const styles = {
     container: {
@@ -59,7 +60,6 @@ const styles = {
 }
 
 const AddNew = props => {
-
     const { saveNewArt } = useContext(GalleryContext);
     const { classes, user } = props;
     const { id } = useParams();
@@ -71,7 +71,7 @@ const AddNew = props => {
         pixelart: new Array(PIXEL_SQ * PIXEL_SQ).fill(true),
     }); //save form data
 
-
+    
     const toggle = (index, value) => {
         let newArt = formData.pixelart.map(a => a);
         newArt.splice(index, 1, !value )
@@ -134,6 +134,7 @@ const AddNew = props => {
 
     return (
         <div className={classes.container}>
+            {console.log('USER', user)}
             
             {id 
             ? <h2 className={classes.title}>Edit your pixelart</h2>

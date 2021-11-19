@@ -1,57 +1,59 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { withStyles } from '@material-ui/styles';
 import { NavLink, useHistory } from 'react-router-dom';
 import AccountButton from './AccountButton';
 import { useAuth } from '../hooks/useAuth';
 
-const styles = {
-    navbar: {
-        backgroundColor: 'grey',
-        height: '55px',
-        zIndex: '2'
-
-    },
-    container: {
-        marginLeft: '30px',
-        marginRight: '30px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        height: '100%'
-    },
-    logo: {
-        fontSize: '24px',
-        color: 'white',
-        marginRight: '20px',
-        transform: 'translateY(-2px)',
-        cursor: 'pointer',
-        '& span': {
-            color: 'yellow'
-        }
-    },
-    menu: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        '& a': {
-            marginLeft: '15px',
-            textDecoration: 'none',
+const styles = (theme) => ({
+        navbar: {
+            gridColumn: '1/4',
+            backgroundColor: 'grey',
+            // width: theme.breakpoints.value('sm')
+            // // [theme.breakpoints.down('sm')]: {
+            //     backgroundColor: 'red',
+            //   },
+            height: '55px',
+            zIndex: '2'
+        },
+        container: {
+            marginLeft: '30px',
+            marginRight: '30px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            height: '100%'
+        },
+        logo: {
+            fontSize: '24px',
             color: 'white',
-        }
-    },
-    signup: {
-        color: 'yellow !important',
-        border: '1px solid yellow',
-        padding: '5px 10px',
-    },
-    active: {
-        borderBottom: '1px dashed yellow',
-        transform: 'translateY(1px)'
-    },
-}
-
-
-
+            marginRight: '20px',
+            transform: 'translateY(-2px)',
+            cursor: 'pointer',
+            '& span': {
+                color: 'yellow'
+            }
+        },
+        menu: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            '& a': {
+                marginLeft: '15px',
+                textDecoration: 'none',
+                color: 'white',
+            }
+        },
+        signup: {
+            color: 'yellow !important',
+            border: '1px solid yellow',
+            padding: '5px 10px',
+        },
+        active: {
+            borderBottom: '1px dashed yellow',
+            transform: 'translateY(1px)'
+        },
+    }
+);
 
 const NavBar = props => {
     const { classes } = props
@@ -62,7 +64,7 @@ const NavBar = props => {
       }
 
     return(
-        <div>
+        <Fragment>
             <div className={classes.navbar}>
                 <div className={classes.container}>
                     <div className={classes.menu}>
@@ -90,7 +92,7 @@ const NavBar = props => {
                 <div className='gallery-item'/>
                 <div className='gallery-item'/>
             </div>
-        </div>
+        </Fragment>
     )
 };
 

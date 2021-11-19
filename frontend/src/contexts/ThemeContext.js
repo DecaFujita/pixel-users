@@ -1,17 +1,30 @@
 import { createTheme } from '@material-ui/core';
-import amber from '@material-ui/core/colors/amber';
-import purple from '@material-ui/core/colors/purple';
+import { yellow, grey } from '@mui/material/colors';
 
 const theme = createTheme({
     palette: {
-        primary: amber,
-        secondary: purple
+        primary: yellow,
+        secondary: grey,
     },
     colors: {
-        bgColor: '#3e3e3e',
-        bgLightColor: '#888',
-        mainAccentColor: '#fecc01',
-    }
+        mainAccentColor: yellow['A700'],
+    },
+    bp: {
+        width: '1200px',  
+    },
+    breakpoints: {
+        values: {
+            xs: 0,
+            sm: 600,
+            md: 900,
+            lg: 1200,
+            xl: 1536,
+        },
+    },
+    
+
+
+
 })
 
 export default theme
