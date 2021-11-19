@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect} from 'react';
+import React, { useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import NotFound from '../NotFound';
 import { withStyles } from '@material-ui/styles';
@@ -81,7 +81,7 @@ const Profile = props => {
 
   const unfollow = async() => {
     const userFollowing = followed.find(el => el.user === authData.user.id)
-    const newUserFollowing = userFollowing.following.filter(el => el !== parseInt(id))
+    const newUserFollowing = userFollowing.following.filter(el => el !== parseInt(id, 10))
 
     await fetch(`http://127.0.0.1:8000/api/following/${userFollowing.id}/`, {
       method: 'PATCH',
@@ -100,7 +100,7 @@ const Profile = props => {
     console.log(userFollowing)
     if (userFollowing) {
       let newUserFollows = userFollowing.following.map(el => el);
-      newUserFollows.push(parseInt(id))
+      newUserFollows.push(parseInt(id, 10))
       await fetch(`http://127.0.0.1:8000/api/following/${userFollowing.id}/`, {
       method: 'PATCH',
       body: JSON.stringify({

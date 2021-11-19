@@ -122,13 +122,13 @@ const AddNew = props => {
         async function fetchArt() {
             try {
                 let art = await fetcher(`/art/${id}`)
-                setFormData({...formData, title: art.title, cathegory: art.cathegory, pixelart: JSON.parse(art.pixelart)})
+                isOn && setFormData({...formData, title: art.title, cathegory: art.cathegory, pixelart: JSON.parse(art.pixelart)})
             } catch (error) {
                 console.log('error: ' + error);
             }
         }
         fetchArt()
-        return () => (isOn = false)
+        return () => isOn = false
     }, [])
     
 
